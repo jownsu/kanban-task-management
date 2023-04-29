@@ -16,20 +16,28 @@ html{
 }
 
 body{
-    background: #EFFAFA;
+    background: #F4F7FD;
     font-family: $font_primary;
 }
 
-nav{
-    background: #5CA5A5 url("/images/bg-header-desktop.svg") center / cover no-repeat;
-    .container{
-        position: relative;
-        height: 156px;
-    }
-}
-
-.container {
+.container{
     margin: 0 auto;
     max-width: $bp_lg;
     width: 90%;
+}
+
+.btn_primary{
+    background: $color_primary;
+    border-radius: 50px;
+    border: none;
+    color: $color_white;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+    padding: 15px 25px;
+    transition: all .1s;
+
+    &:hover{
+        background: $color_primary_light;
+    }
 }

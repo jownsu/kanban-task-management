@@ -1,16 +1,26 @@
 /* Colors */
-$color_green: #5CA5A5;
-$color_light_green: #EFF6F6;
-$color_dark_green: #2B3939;
+$color_primary       : #635FC7;
+$color_primary_light : #A8A4FF;
+$color_dark_4        : #000112;
+$color_dark_3        : #20212C;
+$color_dark_2        : #2B2C37;
+$color_dark_1        : #3E3F4E;
+$color_grey_3        : #828FA3;
+$color_grey_2        : #E4EBFA;
+$color_grey_1        : #F4F7FD;
+$color_white         : #FFFFFF;
+$color_red           : #EA5555;
+$color_red_light     : #FF9898;
 
-$color_white: #fff;
-$color_black: #000;
-/* Dark Mode */
-$color_dark_1: #2B3844;
 /* Fonts */
-$font_primary: "League Spartan", sans-serif;
+$font_primary    : "Plus Jakarta Sans", sans-serif;
+$font_heading_xl : 700 24px/30px $font_primary; 
+$font_heading_l  : 700 18px/23px $font_primary; 
+$font_heading_m  : 700 15px/19px $font_primary; 
+$font_heading_s  : 700 12px/15px $font_primary; 
+
 
 /* Breakpoints */
-$bp_sm: 400px;
-$bp_md: 800px;
-$bp_lg: 1110px;
+$bp_sm : 400px;
+$bp_md : 800px;
+$bp_lg : 1440px;

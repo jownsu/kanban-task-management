@@ -1,0 +1,35 @@
+@import "../../sass/variables";
+
+nav{
+    align-items: center;
+    background: $color_white;
+    display: flex;
+    height: 97px;
+
+    .logo{
+        background: url("/images/logo-dark.svg") center / contain no-repeat;
+        background-size: 152.53px 25.22px;
+        border-right: 1px solid $color_grey_2;
+        display: block;
+        height: 100%;
+        margin-right: 32px;
+        width: 210px;
+    }
+
+    h1{
+        font: $font_heading_xl;
+    }
+
+    .btn_add{
+        font: $font_heading_m;
+        margin: 0 15px 0 auto;
+    }
+    .menu{
+        background: url("/images/icon-vertical-ellipsis.svg") center / contain no-repeat;
+        border: none;
+        height: 20px;
+        margin-right: 25px;
+        outline: none;
+        width: 20px;
+    }
+}
