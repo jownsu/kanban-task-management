@@ -6,6 +6,12 @@ nav{
     display: flex;
     height: 97px;
 
+    &.active{
+        h1{
+            transform: translateX(90px);
+        }
+    }
+
     .logo{
         background: url("/images/logo-dark.svg") center / contain no-repeat;
         background-size: 152.53px 25.22px;
@@ -18,6 +24,7 @@ nav{
 
     h1{
         font: $font_heading_xl;
+        transition: all .2s;
     }
 
     .btn_add{

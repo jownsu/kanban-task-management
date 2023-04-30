@@ -1,0 +1,190 @@
+@import "../../sass/variables";
+
+
+aside{
+    background: $color_white;
+    border-right: 1px solid $color_grey_2;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    left: -300px;
+    position: absolute;
+    top: 0;
+    transition: all .2s;
+    width: 300px;
+
+    &.active{
+        left: 0;
+
+        .btn_show{
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    .logo{
+        background: url("/images/logo-dark.svg") center / contain no-repeat;
+        background-size: 152.53px 25.22px;
+        display: block;
+        height: 90px;
+        margin-bottom: 18px;
+        width: 220px;
+    }
+
+    >p{
+        color: $color_grey_3;
+        font: $font_heading_s;
+        letter-spacing: 2.4px;
+        margin-bottom: 22px;
+        padding-left: 32px;
+        text-transform: uppercase;
+    }
+
+    ul{
+        list-style-type: none;
+        padding: 0 23px 0 0;
+
+        li{
+            border-radius: 0 100px 100px 0;
+            cursor: pointer;
+            padding: 10px 0 10px 63px;
+            transition: all .1s;
+
+            &:hover:not(.active){
+                background: $color_primary_light;
+                button{
+                    color: $color_white;
+                    &::before{
+                        background: url("/images/icon-board-light.svg") center / contain no-repeat;
+                    }
+                }
+            }
+
+            &.active{
+                background: $color_primary;
+                button{
+                    color: $color_white;
+                    &::before{
+                        background: url("/images/icon-board-light.svg") center / contain no-repeat;
+                    }
+                }
+            }
+
+            &.create_board{
+                button{
+                    color: $color_primary;
+                    &::before{
+                        background: url("/images/icon-board-purple.svg") center / contain no-repeat;
+                    }
+                }
+            }
+
+            button{
+                background: none;
+                border: none;
+                color: $color_grey_3;
+                font: $font_heading_m;
+                outline: none;
+                position: relative;
+                &::before{
+                    background: url("/images/icon-board.svg") center / contain no-repeat;
+                    bottom: 0;
+                    content: "";
+                    height: 16px;
+                    left: -31px;
+                    position: absolute;
+                    width: 16px;
+                }
+            }
+        }
+    }
+
+    .theme{
+        align-items: center;
+        background: $color_grey_1;
+        border-radius: 6px;
+        display: flex;
+        gap: 23px;
+        height: 48px;
+        justify-content: center;
+        margin: auto auto 0;
+        width: 250px;
+
+        #theme_switch{
+            background-color: $color_primary;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+            background-position: 2px center;
+            background-size: 14px;
+            border: none;
+            height: 20px;
+            width: 40px;
+            
+            &:checked{
+                background-color: $color_primary;
+                background-position: 24px center
+            }
+
+            &:focus{
+                border: none;
+                box-shadow: none;
+                outline: none;
+            }
+        }
+
+
+        .light_icon{
+            background: url("/images/icon-light-theme.svg") center / contain no-repeat;
+            display: block;
+            height: 18px;
+            width: 18px;
+        }
+        .dark_icon{
+            background: url("/images/icon-dark-theme.svg") center / contain no-repeat;
+            display: block;
+            height: 18px;
+            width: 18px;
+        }
+    }
+
+    .btn_hide{
+        background: none;
+        border: none;
+        color: $color_grey_3;
+        cursor: pointer;
+        font: $font_heading_m;
+        margin: 25px 0 47px 60px;
+        outline: none;
+        position: relative;
+        width: fit-content;
+        
+        &::before{
+            background: url("/images/icon-hide-sidebar.svg");
+            content: "";
+            height: 16px;
+            left: -30px;
+            position: absolute;
+            top: 0;
+            width: 18px;
+        }
+    }
+
+    .btn_show{
+        background: $color_primary url("/images/icon-show-sidebar.svg") center / contain no-repeat;
+        background-size: 16px;
+        border-radius: 0 100px 100px 0;
+        border: none;
+        bottom: 32px;
+        height: 48px;
+        opacity: 1;
+        outline: none;
+        position: absolute;
+        right: -56px;
+        transition: all .2s;
+        visibility: visible;
+        width: 56px;
+
+        &:hover{
+            background-color: $color_primary_light;
+        }
+    }
+}
