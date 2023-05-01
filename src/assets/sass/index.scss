@@ -18,10 +18,15 @@ html{
 body{
     background: #F4F7FD;
     font-family: $font_primary;
+    min-height: 100vh;
 
     &.dark{
         background: $color_dark_3;
     }
+}
+
+main{
+    padding: 20px 20px 20px 320px;
 }
 
 .container{

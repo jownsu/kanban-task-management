@@ -1,0 +1,21 @@
+@import "../../sass/variables";
+
+.empty_board{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    p{
+        color: $color_grey_3;
+        font: $font_heading_l;
+    }
+
+    button{
+        font: $font_heading_m;
+    }
+}

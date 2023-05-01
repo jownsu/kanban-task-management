@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import Nav from "./assets/components/nav/nav";
 import SideBar from "./assets/components/side_bar/side_bar";
+import EmptyBoard from "./assets/components/empty_board/empty_board";
 
 function App() {
 
@@ -38,6 +39,9 @@ function App() {
                 onToggleShow={toggleSideBar}
                 onThemeSwitch={themeSwitch}
             />
+            <main>
+                <EmptyBoard />
+            </main>
         </>
     )
 }
