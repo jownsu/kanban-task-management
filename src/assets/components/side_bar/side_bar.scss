@@ -12,15 +12,7 @@ aside{
     top: 0;
     transition: left .2s;
     width: 300px;
-
-    &.active{
-        left: 0;
-
-        .btn_show{
-            opacity: 0;
-            visibility: hidden;
-        }
-    }
+    z-index: 10;
 
     .logo{
         background: url("/images/logo-dark.svg") center / contain no-repeat;
@@ -49,26 +41,6 @@ aside{
             cursor: pointer;
             padding: 10px 0 10px 63px;
             transition: background .2s;
-
-            &:hover:not(.active){
-                background: $color_primary_light;
-                button{
-                    color: $color_white;
-                    &::before{
-                        background: url("/images/icon-board-light.svg") center / contain no-repeat;
-                    }
-                }
-            }
-
-            &.active{
-                background: $color_primary;
-                button{
-                    color: $color_white;
-                    &::before{
-                        background: url("/images/icon-board-light.svg") center / contain no-repeat;
-                    }
-                }
-            }
 
             &.create_board{
                 button{
@@ -185,6 +157,40 @@ aside{
 
         &:hover{
             background-color: $color_primary_light;
+        }
+    }
+}
+
+#kanban.active{
+
+    aside{
+        left: 0;
+        .btn_show{
+            opacity: 0;
+            visibility: hidden;
+        }
+        ul{
+            li{
+                &:hover:not(.active){
+                    background: $color_primary_light;
+                    button{
+                        color: $color_white;
+                        &::before{
+                            background: url("/images/icon-board-light.svg") center / contain no-repeat;
+                        }
+                    }
+                }
+    
+                &.active{
+                    background: $color_primary;
+                    button{
+                        color: $color_white;
+                        &::before{
+                            background: url("/images/icon-board-light.svg") center / contain no-repeat;
+                        }
+                    }
+                }
+            }
         }
     }
 }

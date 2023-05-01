@@ -1,9 +1,8 @@
-import { FC } from "react";
 import "./nav.scss";
 
-const Nav:FC<{active: boolean}> = (props) => {
+const Nav = () => {
     return (
-        <nav className={props.active ? "active" : ""}>
+        <nav>
             <span className="logo"></span>
             <h1>Platform Launch</h1>
             <button type="button" className="btn_primary btn_add">+ Add New Task</button>

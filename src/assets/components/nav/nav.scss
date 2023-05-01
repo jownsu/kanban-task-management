@@ -6,12 +6,6 @@ nav{
     display: flex;
     height: 97px;
 
-    &.active{
-        h1{
-            transform: translateX(90px);
-        }
-    }
-
     .logo{
         background: url("/images/logo-dark.svg") center / contain no-repeat;
         background-size: 152.53px 25.22px;
@@ -38,6 +32,12 @@ nav{
         margin-right: 25px;
         outline: none;
         width: 20px;
+    }
+}
+
+#kanban.active{
+    h1{
+        transform: translateX(90px);
     }
 }
 

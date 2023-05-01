@@ -32,17 +32,16 @@ function App() {
     }
 
     return (
-        <>
-            <Nav active={show_sidebar} />
+        <div id="kanban" className={show_sidebar ? "active" : ""}>
+            <Nav />
             <SideBar 
-                active={show_sidebar} 
                 onToggleShow={toggleSideBar}
                 onThemeSwitch={themeSwitch}
             />
             <main>
                 <EmptyBoard />
             </main>
-        </>
+        </div>
     )
 }
 

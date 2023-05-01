@@ -5,14 +5,13 @@ import "./side_bar.scss";
 
 
 type SideBarProps = {
-    active: boolean;
     onToggleShow: () => void;
     onThemeSwitch: (event: React.ChangeEvent<HTMLInputElement>) => void;
   };
 
 const SideBar: FC<SideBarProps> = (props) => {
     
-    const { active, onToggleShow, onThemeSwitch } = props;
+    const { onToggleShow, onThemeSwitch } = props;
 
     const [dark_theme, setDarkTheme] = useState(false);
     
@@ -29,7 +28,7 @@ const SideBar: FC<SideBarProps> = (props) => {
     }
 
     return (
-        <aside className={active ? "active" : ""}>
+        <aside>
             <span className="logo"></span>
             <p>All Boards (3)</p>
             <ul>
