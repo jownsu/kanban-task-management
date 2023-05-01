@@ -1,12 +1,33 @@
-import { FC } from "react";
+import { useEffect, useState, FC, ChangeEvent } from "react";
 import Form from "react-bootstrap/Form";
 
 import "./side_bar.scss";
 
-const SideBar:FC<{active: boolean; onToggleShow: () => void}> = (props) => {
+
+type SideBarProps = {
+    active: boolean;
+    onToggleShow: () => void;
+    onThemeSwitch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  };
+
+const SideBar: FC<SideBarProps> = (props) => {
     
-    const { active, onToggleShow } = props;
+    const { active, onToggleShow, onThemeSwitch } = props;
+
+    const [dark_theme, setDarkTheme] = useState(false);
     
+    useEffect(() => {
+        const dark_mode = localStorage.getItem("dark_mode");
+        if(dark_mode === "true"){
+            setDarkTheme(true);
+        }
+    }, []);
+
+    const onThemeChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDarkTheme(prevState => !prevState);
+        onThemeSwitch(event);
+    }
+
     return (
         <aside className={active ? "active" : ""}>
             <span className="logo"></span>
@@ -30,6 +51,8 @@ const SideBar:FC<{active: boolean; onToggleShow: () => void}> = (props) => {
                 <Form.Check 
                     type="switch"
                     id="theme_switch"
+                    checked={dark_theme}
+                    onChange={onThemeChange}
                 />
                 <span className="dark_icon"></span>
             </div>

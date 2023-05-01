@@ -40,3 +40,16 @@ nav{
         width: 20px;
     }
 }
+
+.dark{
+    nav{
+        background: $color_dark_2;
+        .logo{
+            background-image: url("/images/logo-light.svg");
+            border-right-color: $color_dark_1;
+        }
+        h1{
+            color: $color_white;
+        }
+    }
+}

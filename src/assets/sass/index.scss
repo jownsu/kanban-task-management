@@ -18,6 +18,10 @@ html{
 body{
     background: #F4F7FD;
     font-family: $font_primary;
+
+    &.dark{
+        background: $color_dark_3;
+    }
 }
 
 .container{

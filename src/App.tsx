@@ -1,10 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import Nav from "./assets/components/nav/nav";
 import SideBar from "./assets/components/side_bar/side_bar";
 
 function App() {
 
-    const [show_sidebar, setShowSidebar] = useState(false);
+    const [show_sidebar, setShowSidebar] = useState(true);
+
+    useEffect(() => {
+        const dark_mode = localStorage.getItem("dark_mode");
+        if(dark_mode === "true"){
+            document.body.className = "dark";
+        }
+    }, []);
+
+    const themeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
+
+        if(event.target.checked){
+            document.body.className = "dark";
+            localStorage.setItem("dark_mode", "true");
+
+        }
+        else{
+            document.body.className = "";
+            localStorage.setItem("dark_mode", "false");
+        }
+    }
 
     const toggleSideBar = () => {
         setShowSidebar(prevState => !prevState);
@@ -13,10 +33,13 @@ function App() {
     return (
         <>
             <Nav active={show_sidebar} />
-            <SideBar active={show_sidebar} onToggleShow={toggleSideBar}/>
+            <SideBar 
+                active={show_sidebar} 
+                onToggleShow={toggleSideBar}
+                onThemeSwitch={themeSwitch}
+            />
         </>
-
-)
+    )
 }
 
 export default App;

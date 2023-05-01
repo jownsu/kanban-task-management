@@ -10,7 +10,7 @@ aside{
     left: -300px;
     position: absolute;
     top: 0;
-    transition: all .2s;
+    transition: left .2s;
     width: 300px;
 
     &.active{
@@ -48,7 +48,7 @@ aside{
             border-radius: 0 100px 100px 0;
             cursor: pointer;
             padding: 10px 0 10px 63px;
-            transition: all .1s;
+            transition: background .2s;
 
             &:hover:not(.active){
                 background: $color_primary_light;
@@ -185,6 +185,19 @@ aside{
 
         &:hover{
             background-color: $color_primary_light;
+        }
+    }
+}
+
+body.dark{
+    aside{
+        background: $color_dark_2;
+        border-right-color: $color_dark_1;
+        .logo{
+            background-image: url("/images/logo-light.svg");
+        }
+        .theme{
+            background-color: $color_dark_3;
         }
     }
 }
