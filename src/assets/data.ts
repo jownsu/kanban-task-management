@@ -1,5 +1,4 @@
-{
-  "boards": [
+export const board = [
     {
       "name": "Platform Launch",
       "columns": [
@@ -426,5 +425,4 @@
         }
       ]
     }
-  ]
-}
+]

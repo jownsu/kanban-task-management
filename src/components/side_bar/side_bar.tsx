@@ -1,8 +1,8 @@
 import { useEffect, useState, FC, ChangeEvent } from "react";
+import { useAppSelector } from "../../store/store";
 import Form from "react-bootstrap/Form";
 
 import "./side_bar.scss";
-
 
 type SideBarProps = {
     onToggleShow: () => void;
@@ -14,7 +14,8 @@ const SideBar: FC<SideBarProps> = (props) => {
     const { onToggleShow, onThemeSwitch } = props;
 
     const [dark_theme, setDarkTheme] = useState(false);
-    
+    const board = useAppSelector(state => state.board.board);
+
     useEffect(() => {
         const dark_mode = localStorage.getItem("dark_mode");
         if(dark_mode === "true"){
@@ -30,17 +31,15 @@ const SideBar: FC<SideBarProps> = (props) => {
     return (
         <aside>
             <span className="logo"></span>
-            <p>All Boards (3)</p>
+            <p>All Boards ({board.length})</p>
             <ul>
-                <li className="active">
-                    <button type="button">Platform Launch</button>
-                </li>
-                <li>
-                    <button type="button">Marketing Plan</button>
-                </li>
-                <li>
-                    <button type="button">Roadmap</button>
-                </li>
+                {
+                    board.map((task, index) => (
+                        <li key={index} className={index === 0 ? "active" : ""}>
+                            <button type="button">{task.name}</button>
+                        </li>
+                    ))
+                }
                 <li className="create_board">
                     <button type="button">+ Create New Board</button>
                 </li>
