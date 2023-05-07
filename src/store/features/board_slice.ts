@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { board } from "../../assets/data";
 
 const initialState = {
@@ -9,9 +9,14 @@ const initialState = {
 export const BoardSlice = createSlice({
     name: "board",
     initialState,
-    reducers: {}
+    reducers: {
+        setActiveBoard: (state, action: PayloadAction<{index: number}>) => {
+            state.active_board = action.payload.index;
+            return state;
+        }
+    }
 });
 
-export const {} = BoardSlice.actions;
+export const {setActiveBoard} = BoardSlice.actions;
 
 export default BoardSlice.reducer;

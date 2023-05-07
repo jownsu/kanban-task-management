@@ -1,8 +1,9 @@
 import { useEffect, useState, FC, ChangeEvent } from "react";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector, useAppDispatch } from "../../store/store";
 import Form from "react-bootstrap/Form";
 
 import "./side_bar.scss";
+import { setActiveBoard } from "../../store/features/board_slice";
 
 type SideBarProps = {
     onToggleShow: () => void;
@@ -14,7 +15,8 @@ const SideBar: FC<SideBarProps> = (props) => {
     const { onToggleShow, onThemeSwitch } = props;
 
     const [dark_theme, setDarkTheme] = useState(false);
-    const { board } = useAppSelector(state => state.board);
+    const { board, active_board } = useAppSelector(state => state.board);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const dark_mode = localStorage.getItem("dark_mode");
@@ -35,8 +37,14 @@ const SideBar: FC<SideBarProps> = (props) => {
             <ul>
                 {
                     board.map((task, index) => (
-                        <li key={index} className={index === 0 ? "active" : ""}>
-                            <button type="button">{task.name}</button>
+                        <li key={index} className={active_board === index ? "active" : ""}>
+                            <button 
+                                type="button" 
+                                onClick={() => dispatch(setActiveBoard({index}))}
+                            >
+                                <span className="board_icon"></span>
+                                {task.name}
+                            </button>
                         </li>
                     ))
                 }

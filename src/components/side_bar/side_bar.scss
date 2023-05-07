@@ -7,7 +7,7 @@ aside{
     flex-direction: column;
     height: 100vh;
     left: -300px;
-    position: absolute;
+    position: fixed;
     top: 0;
     transition: left .2s;
     width: 300px;
@@ -36,9 +36,7 @@ aside{
         padding: 0 23px 0 0;
 
         li{
-            border-radius: 0 100px 100px 0;
             cursor: pointer;
-            padding: 10px 0 10px 63px;
             transition: background .2s;
 
             &.create_board{
@@ -51,19 +49,22 @@ aside{
             }
 
             button{
+                align-items: center;
                 background: none;
+                border-radius: 0 100px 100px 0;
                 border: none;
                 color: $color_grey_3;
+                display: flex;
                 font: $font_heading_m;
                 outline: none;
+                padding: 10px 0 10px 32px;
                 position: relative;
-                &::before{
+                width: 100%;
+                .board_icon{
                     background: url("/images/icon-board.svg") center / contain no-repeat;
-                    bottom: 0;
-                    content: "";
+                    display: block;
                     height: 16px;
-                    left: -31px;
-                    position: absolute;
+                    margin-right: 17px;
                     width: 16px;
                 }
             }
@@ -171,20 +172,19 @@ aside{
         ul{
             li{
                 &:hover:not(.active){
-                    background: $color_primary_light;
                     button{
+                        background: $color_primary_light;
                         color: $color_white;
-                        &::before{
+                        .board_icon{
                             background: url("/images/icon-board-light.svg") center / contain no-repeat;
                         }
                     }
                 }
-    
                 &.active{
-                    background: $color_primary;
                     button{
+                        background: $color_primary;
                         color: $color_white;
-                        &::before{
+                        .board_icon{
                             background: url("/images/icon-board-light.svg") center / contain no-repeat;
                         }
                     }
