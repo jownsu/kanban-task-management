@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { board } from "../../assets/data";
 
-const initialState = {board: board};
+const initialState = {
+    board: board,
+    active_board: 0
+};
 
 export const BoardSlice = createSlice({
     name: "board",

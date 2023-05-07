@@ -1,0 +1,32 @@
+@import "../../assets/sass/variables";
+
+.task_list{
+    list-style-type: none;
+    padding: 0;
+    > li {
+        background: $color_white;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545);
+        padding: 23px 16px;
+        &:not(:last-of-type){
+            margin-bottom: 20px;
+        }
+        .title{
+            font: $font_heading_m;
+            margin-bottom: 12px;
+        } 
+        .sub_task_info{
+            color: $color_grey_3;
+            font: $font_heading_s;
+        }
+    }
+}
+
+body.dark{
+    .task_list{
+        > li {
+            background: $color_dark_2;
+            color: $color_white;
+        }
+    }
+}

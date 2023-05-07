@@ -7,14 +7,14 @@ import "./side_bar.scss";
 type SideBarProps = {
     onToggleShow: () => void;
     onThemeSwitch: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  };
+};
 
 const SideBar: FC<SideBarProps> = (props) => {
     
     const { onToggleShow, onThemeSwitch } = props;
 
     const [dark_theme, setDarkTheme] = useState(false);
-    const board = useAppSelector(state => state.board.board);
+    const { board } = useAppSelector(state => state.board);
 
     useEffect(() => {
         const dark_mode = localStorage.getItem("dark_mode");
@@ -26,7 +26,7 @@ const SideBar: FC<SideBarProps> = (props) => {
     const onThemeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setDarkTheme(prevState => !prevState);
         onThemeSwitch(event);
-    }
+    };
 
     return (
         <aside>
@@ -67,7 +67,7 @@ const SideBar: FC<SideBarProps> = (props) => {
                 onClick={onToggleShow}
             ></button>
         </aside>
-    )
-}
+    );
+};
 
 export default SideBar;

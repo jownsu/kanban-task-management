@@ -8,7 +8,7 @@ const Nav = () => {
             <button type="button" className="btn_primary btn_add">+ Add New Task</button>
             <button type="button" className="menu"></button>
         </nav>
-    )
-}
+    );
+};
 
 export default Nav;

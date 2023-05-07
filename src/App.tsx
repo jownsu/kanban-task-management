@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import Nav from "./components/nav/nav";
 import SideBar from "./components/side_bar/side_bar";
-import EmptyBoard from "./components/empty_board/empty_board";
+import Board from "./components/board/board";
 
 function App() {
 
@@ -15,7 +15,6 @@ function App() {
     }, []);
 
     const themeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-
         if(event.target.checked){
             document.body.className = "dark";
             localStorage.setItem("dark_mode", "true");
@@ -39,7 +38,7 @@ function App() {
                 onThemeSwitch={themeSwitch}
             />
             <main>
-                <EmptyBoard />
+                <Board />
             </main>
         </div>
     )

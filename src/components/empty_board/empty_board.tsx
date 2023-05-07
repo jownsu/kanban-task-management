@@ -7,6 +7,6 @@ const EmptyBoard = () => {
             <button type="button" className='btn_primary'>+ Add New Column</button>
         </div>
     )
-}
+};
 
 export default EmptyBoard;
