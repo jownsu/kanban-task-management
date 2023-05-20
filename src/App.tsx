@@ -4,7 +4,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import Nav from "./components/nav/nav";
 import SideBar from "./components/side_bar/side_bar";
 import Board from "./components/board/board";
-import AddNewTaskModal from "./modals/add_new_task.modal";
+import AddTaskModal from "./modals/add_task/add_task.modal";
 
 function App() {
 
@@ -48,7 +48,7 @@ function App() {
                     <Board />
                 </main>
             </div>
-            <AddNewTaskModal 
+            <AddTaskModal 
                 is_show={show_add_task_modal}
                 handleClose={() => setShowAddTaskModal(false)}
             />

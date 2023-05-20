@@ -1,0 +1,208 @@
+@import "../../assets/sass/variables";
+
+#task_details_modal{
+
+    .modal-content{
+        border-radius: 6px;
+        width: 480px;
+    }
+
+    .modal-body{
+        padding: 32px;
+    }
+
+    .title{
+        align-items: center;
+        color: $color_dark_4;
+        display: flex;        
+        font: $font_heading_l;
+        justify-content: space-between;
+        margin-bottom: 25px;
+
+        .menu{
+            background: url("/images/icon-vertical-ellipsis.svg") center / contain no-repeat;
+            border: none;
+            height: 20px;
+            outline: none;
+            width: 20px;
+        }
+    }
+
+    .description{
+        color: $color_grey_3;
+        font: 500 13px/23px $font_primary;
+    }
+
+    .input_group{
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+
+        label{
+            color: $color_grey_3;
+            font: $font_heading_s;
+        }
+
+        select{
+            border-radius: 4px;
+            border: 1px solid rgba(130, 143, 163, 0.25);
+            color: $color_dark_4;
+            font: 500 13px/23px $font_primary;
+            outline: none;
+            padding: 10px;
+            resize: none;
+
+            &::placeholder{
+                color: rgba($color_dark_4, .5);
+            }
+        }
+
+        textarea{
+            height: 112px;
+        }
+    }
+
+    .form-select{
+        background-image: url("/images/icon-chevron-down.svg");
+        background-size: 12px 8px;
+
+        &:focus{
+            box-shadow: none;
+        }
+    }
+
+    .sub_tasks_container{
+        margin: 24px 0;
+
+        > p{
+            color: $color_grey_3;
+            font: $font_heading_s;
+            margin-bottom: 16px;
+        }
+
+        .sub_task{
+            align-items: center;
+            background: $color_grey_1;
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+
+            input[type="checkbox"]{
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                appearance: none;
+                border-radius: 4px;
+                border: 1px solid rgba($color_grey_3 , .25);
+                cursor: pointer;
+                height: 16px;
+                outline: none;
+                position: relative;
+                width: 16px;
+
+                &:checked::before{
+                    background: $color_primary url("/images/icon-check.svg") center no-repeat;
+                    border-radius: 2px;
+                    content: "";
+                    display: block;
+                    height: 100%;
+                    left: 50%;
+                    position: absolute;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 100%;
+                }
+
+                &:checked ~ p{
+                    opacity: .5;
+                    text-decoration: line-through;
+                }
+            }
+
+            &:not(:last-of-type){
+                margin-bottom: 10px;
+            }
+
+            p{
+                color: $color_dark_4;
+                flex: 1;
+                font: $font_heading_s;
+            }
+        }
+    }
+
+    #add_sub_task_btn,
+    #create_task_btn{
+        border-radius: 100px;
+        border: none;
+        color: $color_primary;
+        font: 700 13px/23px $font_primary;
+        height: 40px;
+        outline: none;
+        width: 100%;
+    }
+
+    #add_sub_task_btn{
+        background: rgba($color_primary, .10);
+    }
+
+    #create_task_btn{
+        background: $color_primary;
+        color: $color_white;
+    }
+}
+
+.dark{
+    #task_details_modal{
+        .modal-body{
+            background: $color_dark_2;
+        }
+
+        .title,
+        label, 
+        .label{
+            color: $color_white;
+        }
+
+        input, 
+        textarea,
+        select{
+            background: $color_dark_2;
+            color: $color_white;
+            &::placeholder{
+                color: rgba($color_white, .25);
+            }
+        }
+
+        .sub_tasks_container{
+            .sub_task{
+                background: $color_dark_3;
+                input{
+                    color: $color_white;
+                    &::placeholder{
+                        color: rgba($color_white, .25);
+                    }
+                }
+    
+                p{
+                    color: $color_white;
+                }
+            }
+            
+            > p {
+                color: $color_white;
+            }
+        }
+
+
+        .form-select{
+            background-image: url("/images/icon-chevron-down.svg");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 12px 8px;
+        }
+
+        #add_sub_task_btn{
+            background: $color_white;
+        }
+    }
+}

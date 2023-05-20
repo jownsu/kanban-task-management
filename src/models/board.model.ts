@@ -15,6 +15,13 @@ export interface Tasks {
     subtasks: Subtasks[]
 }
 
+export const TasksInitialState = {
+    title: "",
+    description: "",
+    status: "",
+    subtasks: []
+}
+
 export interface Subtasks {
     title: string,
     isCompleted: boolean

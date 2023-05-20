@@ -10,7 +10,7 @@ const ColumnList = () => {
     return (
         <ul className="column_list">
             {
-                columns.map(column => <ColumnItem column={column} />)
+                columns.map((column, index) => <ColumnItem key={index} column={column} />)
             }
         </ul>
     );

@@ -1,14 +1,14 @@
 import { FC } from "react";
 import { Modal, Form } from "react-bootstrap";
 
-import "./add_new_task.modal.scss";
+import "./edit_task.modal.scss";
 
-type AddNewTaskProps = {
+type EditTaskProps = {
     is_show: boolean;
     handleClose: () => void;
 };
 
-const AddNewTaskModal:FC<AddNewTaskProps> = (props) => {
+const EditTaskModal:FC<EditTaskProps> = (props) => {
     const { is_show, handleClose } = props;
     
     return (
@@ -16,10 +16,10 @@ const AddNewTaskModal:FC<AddNewTaskProps> = (props) => {
             show={is_show}
             onHide={handleClose}
             centered
-            id="new_task_modal"
+            id="edit_task_modal"
         >
             <Modal.Body>
-                <p className="title">Add New Task</p>
+                <p className="title">Edit Task</p>
                 <div className="input_group">
                     <label htmlFor="title">Title</label>
                     <input type="text" id="title" placeholder="e.g Take coffee break"/>
@@ -54,4 +54,4 @@ const AddNewTaskModal:FC<AddNewTaskProps> = (props) => {
     );
 }
 
-export default AddNewTaskModal;
+export default EditTaskModal;
