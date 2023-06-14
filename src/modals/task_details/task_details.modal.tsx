@@ -1,27 +1,58 @@
-import { FC } from "react";
-import { Modal, Form } from "react-bootstrap";
+import { FC, useState } from "react";
+import { Modal, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import { Tasks } from "../../models/board.model";
 import "./task_details.modal.scss";
 
 type TaskDetailsProps = {
     is_show: boolean;
-    handleClose: () => void;
-    active_task: Tasks
+    onClose: () => void;
+    onEditTask: () => void;
+    active_task: Tasks;
 };
 
 const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
-    const { is_show, active_task, handleClose } = props;
+    const { is_show, active_task, onClose, onEditTask } = props;
+    const [ show_action, setShowAction ] = useState(false);
+
+    const handleEditClick = () => {
+        setShowAction(false);
+        onEditTask();
+    }
+    
     return (
         <Modal 
             show={is_show}
-            onHide={handleClose}
+            onHide={onClose}
             centered
             id="task_details_modal"
         >
             <Modal.Body>
                 <div className="title">
                     <p>{active_task.title}</p>
-                    <button type="button" className="menu"></button>
+                    <OverlayTrigger 
+                        trigger="click"
+                        placement="bottom"
+                        show={show_action}
+                        defaultShow={false}
+                        rootClose
+                        onToggle={() => setShowAction(prevState => !prevState)}
+                        overlay={
+                            <Popover className="action_popover">
+                                <Popover.Body>
+                                    <button 
+                                        type="button" 
+                                        className="btn_edit"
+                                        onClick={handleEditClick}
+                                    >
+                                        Edit Task
+                                    </button>
+                                    <button type="button" className="btn_delete">Delete Task</button>
+                                </Popover.Body>
+                            </Popover>
+                        }
+                    >
+                        <button type="button" className="menu"></button>
+                    </OverlayTrigger>
                 </div>
 
                 <p className="description">{active_task.description}</p>

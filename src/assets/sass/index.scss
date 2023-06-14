@@ -64,3 +64,41 @@ main{
         background: $color_primary_light;
     }
 }
+
+.action_popover{
+    border: none;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    min-width: 192px;
+    .popover-arrow{
+        display: none !important;
+    }
+    .popover-body{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 18px 16px;
+
+        button{
+            background: none;
+            border: none;
+            font: 500 13px/23px $font_primary;
+            outline: none;
+            text-align: left;
+
+            &.btn_edit{
+                color: $color_grey_3;            
+            }
+
+            &.btn_delete{
+                color: $color_red;
+            }
+        }
+    }
+}
+
+.dark{
+    .action_popover{
+        background: $color_dark_3;
+        box-shadow: rgba(79, 81, 83, 0.2) 0px 8px 24px;
+    }
+}

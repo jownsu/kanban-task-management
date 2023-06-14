@@ -1,14 +1,22 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 import "./nav.scss";
 
 type NavProps = {
-    handleAddTaskClick: () => void;
+    onAddTaskClick: () => void;
+    onEditBoard: () => void;
 };
 
 const Nav:FC<NavProps> = (props) => {
 
-    const { handleAddTaskClick } = props;
+    const { onAddTaskClick, onEditBoard } = props;
+    const [ show_action, setShowAction ] = useState(false);
 
+    const handleEditClick = () => {
+        setShowAction(false);
+        onEditBoard();
+    }
+    
     return (
         <nav>
             <span className="logo"></span>
@@ -16,11 +24,34 @@ const Nav:FC<NavProps> = (props) => {
             <button 
                 type="button" 
                 className="btn_primary btn_add"
-                onClick={handleAddTaskClick}
+                onClick={onAddTaskClick}
             >
                 + Add New Task
             </button>
-            <button type="button" className="menu"></button>
+            <OverlayTrigger 
+                trigger="click"
+                placement="bottom"
+                show={show_action}
+                defaultShow={false}
+                rootClose
+                onToggle={() => setShowAction(prevState => !prevState)}
+                overlay={
+                    <Popover className="action_popover">
+                        <Popover.Body>
+                            <button 
+                                type="button" 
+                                className="btn_edit"
+                                onClick={handleEditClick}
+                            >
+                                Edit Board
+                            </button>
+                            <button type="button" className="btn_delete">Delete Board</button>
+                        </Popover.Body>
+                    </Popover>
+                }
+            >
+                <button type="button" className="menu"></button>
+            </OverlayTrigger>
         </nav>
     );
 };
