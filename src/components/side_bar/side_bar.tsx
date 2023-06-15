@@ -8,11 +8,12 @@ import { setActiveBoard } from "../../store/features/board_slice";
 type SideBarProps = {
     onToggleShow: () => void;
     onThemeSwitch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onCreateBoardClick: () => void;
 };
 
 const SideBar: FC<SideBarProps> = (props) => {
     
-    const { onToggleShow, onThemeSwitch } = props;
+    const { onToggleShow, onThemeSwitch, onCreateBoardClick } = props;
 
     const [dark_theme, setDarkTheme] = useState(false);
     const { board, active_board } = useAppSelector(state => state.board);
@@ -49,7 +50,7 @@ const SideBar: FC<SideBarProps> = (props) => {
                     ))
                 }
                 <li className="create_board">
-                    <button type="button">+ Create New Board</button>
+                    <button type="button" onClick={onCreateBoardClick}>+ Create New Board</button>
                 </li>
             </ul>
             <div className="theme">

@@ -1,0 +1,157 @@
+@import "../../assets/sass/variables";
+
+#add_board_modal{
+
+    .modal-content{
+        border-radius: 6px;
+        width: 480px;
+    }
+
+    .modal-body{
+        padding: 32px;
+    }
+
+    .title{
+        color: $color_dark_4;
+        font: $font_heading_l;
+        margin-bottom: 25px;
+    }
+
+    .input_group{
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        margin-bottom: 25px;
+
+        label{
+            font: $font_heading_s;
+            color: $color_grey_3;
+        }
+
+        input, 
+        textarea,
+        select{
+            border-radius: 4px;
+            border: 1px solid rgba(130, 143, 163, 0.25);
+            color: $color_dark_4;
+            font: 500 13px/23px $font_primary;
+            outline: none;
+            padding: 10px;
+            resize: none;
+
+            &::placeholder{
+                color: rgba($color_dark_4, .5);
+            }
+        }
+
+        textarea{
+            height: 112px;
+        }
+    }
+
+    .form-select{
+        background-image: url("/images/icon-chevron-down.svg");
+        background-size: 12px 8px;
+
+        &:focus{
+            box-shadow: none;
+        }
+    }
+
+    .board_columns_container{
+        margin-bottom: 25px;
+        .label{
+            color: $color_grey_3;
+            font: $font_heading_s;
+            margin-bottom: 8px;
+        }
+
+        .column_group{
+            align-items: center;
+            display: flex;
+            gap: 10px;
+            input{
+                border-radius: 4px;
+                border: 1px solid rgba(130, 143, 163, 0.25);
+                color: $color_dark_4;
+                flex: 1;
+                font: 500 13px/23px $font_primary;
+                margin-bottom: 12px;
+                outline: none;
+                padding: 10px;
+                resize: none;
+
+                &::placeholder{
+                    color: rgba($color_dark_4, .5);
+                }
+            }
+            .remove_btn{
+                background: url("/images/icon-cross.svg") center / contain no-repeat;
+                border: none;
+                height: 15px;
+                outline: none;
+                width: 15px;
+            }
+        }
+    }
+
+    #add_column_btn,
+    #create_board_btn{
+        border-radius: 100px;
+        border: none;
+        color: $color_primary;
+        font: 700 13px/23px $font_primary;
+        height: 40px;
+        outline: none;
+        width: 100%;
+    }
+
+    #create_board_btn{
+        background: $color_primary;
+        color: $color_white;
+    }
+}
+
+.dark{
+    #add_board_modal{
+        .modal-body{
+            background: $color_dark_2;
+        }
+
+        .title,
+        label, 
+        .label{
+            color: $color_white;
+        }
+
+        input, 
+        textarea,
+        select{
+            background: $color_dark_2;
+            color: $color_white;
+            &::placeholder{
+                color: rgba($color_white, .25);
+            }
+        }
+
+        .column_group{
+            input{
+                color: $color_white;
+                &::placeholder{
+                    color: rgba($color_white, .25);
+                }
+            }
+        }
+
+        .form-select{
+            background-image: url("/images/icon-chevron-down.svg");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 12px 8px;
+        }
+
+        #add_column_btn{
+            background: $color_white;
+        }
+    }
+}
