@@ -1,0 +1,52 @@
+@import "../../assets/sass/variables";
+
+#delete_task_modal{
+    .modal-content{
+        border-radius: 6px;
+        width: 480px;
+    }
+
+    .modal-body{
+        padding: 32px 32px 40px 32px;
+    }
+
+    .title{
+        color: $color_red;
+        font: $font_heading_l;
+        margin-bottom: 25px;
+    }
+    .desc{
+        color: $color_grey_3;
+        font: 500 13px/23px $font_primary;
+    }
+
+    .action_container{
+        display: flex;
+        gap: 16px;
+        margin-top: 23px;
+        button{
+            border-radius: 100px;
+            border: none;
+            flex: 1;
+            font: 700 13px/23px $font_primary;
+            height: 40px;
+            outline: none;
+            &.delete_task_btn{
+                background: $color_red;
+                color: $color_white;
+            }
+            &.cancel_btn{
+                color: $color_primary;
+
+            }
+        }
+    }
+}
+
+.dark{
+    #delete_task_modal{
+        .modal-body{
+            background: $color_dark_2;
+        }
+    }
+}

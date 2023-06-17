@@ -5,16 +5,22 @@ import "./nav.scss";
 type NavProps = {
     onAddTaskClick: () => void;
     onEditBoard: () => void;
+    onDeleteBoard: () => void;
 };
 
 const Nav:FC<NavProps> = (props) => {
 
-    const { onAddTaskClick, onEditBoard } = props;
+    const { onAddTaskClick, onEditBoard, onDeleteBoard } = props;
     const [ show_action, setShowAction ] = useState(false);
 
     const handleEditClick = () => {
         setShowAction(false);
         onEditBoard();
+    }
+
+    const handleDeleteClick = () => {
+        setShowAction(false);
+        onDeleteBoard();
     }
     
     return (
@@ -45,7 +51,13 @@ const Nav:FC<NavProps> = (props) => {
                             >
                                 Edit Board
                             </button>
-                            <button type="button" className="btn_delete">Delete Board</button>
+                            <button 
+                                type="button" 
+                                className="btn_delete"
+                                onClick={handleDeleteClick}
+                            >
+                                Delete Board
+                            </button>
                         </Popover.Body>
                     </Popover>
                 }

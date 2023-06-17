@@ -5,16 +5,16 @@ import "./add_task.modal.scss";
 
 type AddTaskProps = {
     is_show: boolean;
-    handleClose: () => void;
+    onHide: () => void;
 };
 
 const AddTaskModal:FC<AddTaskProps> = (props) => {
-    const { is_show, handleClose } = props;
+    const { is_show, onHide } = props;
     
     return (
         <Modal 
             show={is_show}
-            onHide={handleClose}
+            onHide={onHide}
             centered
             id="new_task_modal"
         >

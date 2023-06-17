@@ -5,16 +5,16 @@ import "./edit_task.modal.scss";
 
 type EditTaskProps = {
     is_show: boolean;
-    onClose: () => void;
+    onHide: () => void;
 };
 
 const EditTaskModal:FC<EditTaskProps> = (props) => {
-    const { is_show, onClose } = props;
+    const { is_show, onHide } = props;
     
     return (
         <Modal 
             show={is_show}
-            onHide={onClose}
+            onHide={onHide}
             centered
             id="edit_task_modal"
         >

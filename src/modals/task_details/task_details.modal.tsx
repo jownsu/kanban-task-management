@@ -5,13 +5,14 @@ import "./task_details.modal.scss";
 
 type TaskDetailsProps = {
     is_show: boolean;
-    onClose: () => void;
+    onHide: () => void;
     onEditTask: () => void;
+    onDeleteTask: () => void;
     active_task: Tasks;
 };
 
 const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
-    const { is_show, active_task, onClose, onEditTask } = props;
+    const { is_show, active_task, onHide, onEditTask, onDeleteTask } = props;
     const [ show_action, setShowAction ] = useState(false);
 
     const handleEditClick = () => {
@@ -19,10 +20,15 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
         onEditTask();
     }
     
+    const handleDeleteClick = () => {
+        setShowAction(false);
+        onDeleteTask();
+    }
+    
     return (
         <Modal 
             show={is_show}
-            onHide={onClose}
+            onHide={onHide}
             centered
             id="task_details_modal"
         >
@@ -46,7 +52,13 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
                                     >
                                         Edit Task
                                     </button>
-                                    <button type="button" className="btn_delete">Delete Task</button>
+                                    <button 
+                                        type="button" 
+                                        className="btn_delete"
+                                        onClick={handleDeleteClick}
+                                    >
+                                        Delete Task
+                                    </button>
                                 </Popover.Body>
                             </Popover>
                         }

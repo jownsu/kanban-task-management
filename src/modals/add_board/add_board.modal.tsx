@@ -5,16 +5,16 @@ import "./add_board.modal.scss";
 
 type AddBoardProps = {
     is_show: boolean;
-    handleClose: () => void;
+    onHide: () => void;
 };
 
 const AddBoardModal:FC<AddBoardProps> = (props) => {
-    const { is_show, handleClose } = props;
+    const { is_show, onHide } = props;
     
     return (
         <Modal 
             show={is_show}
-            onHide={handleClose}
+            onHide={onHide}
             centered
             id="add_board_modal"
         >

@@ -5,16 +5,16 @@ import "./edit_board.modal.scss";
 
 type EditBoardProps = {
     is_show: boolean;
-    handleClose: () => void;
+    onHide: () => void;
 };
 
 const EditBoardModal:FC<EditBoardProps> = (props) => {
-    const { is_show, handleClose } = props;
+    const { is_show, onHide } = props;
     
     return (
         <Modal 
             show={is_show}
-            onHide={handleClose}
+            onHide={onHide}
             centered
             id="edit_board_modal"
         >

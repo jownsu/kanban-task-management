@@ -3,6 +3,7 @@ import { Tasks, TasksInitialState } from "../../models/board.model";
 import TaskItem from "./task_item";
 import TaskDetailsModal from "../../modals/task_details/task_details.modal";
 import EditTaskModal from "../../modals/edit_task/edit_task.modal";
+import DeleteTaskModal from "../../modals/delete_task/delete_task.modal";
 import "./task.scss";
 
 type TaskListProps = {
@@ -12,23 +13,27 @@ type TaskListProps = {
 const TaskList: FC<TaskListProps> = (props) => {
 
     const { tasks } = props;
-    const [show_task_details_modal, setShowTaskDetailsModal] = useState(false);
-    const [show_edit_task_modal, setShowEditTaskModal] = useState(false);
+    const [show_modal, setShowModal] = useState({
+        task_details: false,
+        edit_task: false,
+        delete_task: false
+    })
     const [active_task, setActiveTask] = useState<Tasks>(TasksInitialState);
 
-    const handleTaskClick = (task: Tasks) => {
-        setShowTaskDetailsModal(true);
-        setActiveTask(task);
+    const { task_details, edit_task, delete_task } = show_modal;
+
+    const toggleModal = (modal: string, value: boolean) => {
+        setShowModal(prevState => (
+            {
+                ...prevState,
+                [modal]: value
+            }
+        ))
     }
 
-    const handleTaskDetailsClose = () => {
-        setShowTaskDetailsModal(false);
-        setActiveTask({    
-            title: "",
-            description: "",
-            status: "",
-            subtasks: []
-        });
+    const handleTaskClick = (task: Tasks) => {
+        toggleModal("task_details", true);
+        setActiveTask(task);
     }
 
     if(!tasks.length){
@@ -42,18 +47,35 @@ const TaskList: FC<TaskListProps> = (props) => {
             </ul>  
 
             <TaskDetailsModal 
-                is_show={show_task_details_modal}
-                onClose={handleTaskDetailsClose}
-                onEditTask={() => setShowEditTaskModal(true)}
+                is_show={task_details}
+                onHide={() => toggleModal("task_details", false)}
+                onEditTask={() => {
+                    toggleModal("task_details", false);
+                    toggleModal("edit_task", true);
+                }}
+                onDeleteTask={() => {
+                    toggleModal("task_details", false);
+                    toggleModal("delete_task", true);
+                }}
                 active_task={active_task}
             />  
 
             <EditTaskModal
-                is_show={show_edit_task_modal}
-                onClose={() => setShowEditTaskModal(false)}
+                is_show={edit_task}
+                onHide={() => {
+                    toggleModal("edit_task", false)
+                    toggleModal("task_details", true);
+                }}
+            />
+
+            <DeleteTaskModal
+                is_show={delete_task}
+                onHide={() => {
+                    toggleModal("delete_task", false);
+                    toggleModal("task_details", true);
+                }}
             />
         </>
-
     );
 };
 
