@@ -4,6 +4,7 @@
     display: flex;
     gap: 24px;
     list-style-type: none;
+    min-height: 85vh;
     padding: 20px;
 
     > li{
@@ -37,6 +38,32 @@
                 left: 0px;
                 position: absolute;
                 width: 15px;
+            }
+        }
+
+        &.new_column{
+            margin-top: 40px;
+            > button{
+                background: linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%);
+                border-radius: 6px;
+                border: none;
+                color: $color_grey_3;
+                font: $font_heading_xl;
+                height: 100%;
+                outline: none;
+                width: 280px;
+            }
+        }
+    }
+}
+
+.dark{
+    .column_list{
+        > li{
+            &.new_column{
+                > button{
+                    background: linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%);
+                }
             }
         }
     }
