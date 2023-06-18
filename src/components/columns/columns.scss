@@ -52,6 +52,10 @@
                 height: 100%;
                 outline: none;
                 width: 280px;
+
+                &:hover{
+                    color: $color_primary;
+                }
             }
         }
     }

@@ -50,7 +50,13 @@ const SideBar: FC<SideBarProps> = (props) => {
                     ))
                 }
                 <li className="create_board">
-                    <button type="button" onClick={onCreateBoardClick}>+ Create New Board</button>
+                    <button 
+                        type="button" 
+                        onClick={onCreateBoardClick}
+                    >
+                        <span className="board_icon"></span>
+                        + Create New Board
+                    </button>
                 </li>
             </ul>
             <div className="theme">
@@ -68,6 +74,7 @@ const SideBar: FC<SideBarProps> = (props) => {
                 className="btn_hide"
                 onClick={onToggleShow}
             >
+                <span className="hide_icon"></span>
                 Hide Sidebar
             </button>
             <button 

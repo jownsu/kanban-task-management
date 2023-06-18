@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
 import { Modal, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import { Tasks } from "../../models/board.model";
 import "./task_details.modal.scss";
@@ -14,6 +14,7 @@ type TaskDetailsProps = {
 const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
     const { is_show, active_task, onHide, onEditTask, onDeleteTask } = props;
     const [ show_action, setShowAction ] = useState(false);
+    const checkboxes_ref = useRef<HTMLInputElement[]>([]);
 
     const handleEditClick = () => {
         setShowAction(false);
@@ -25,6 +26,13 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
         onDeleteTask();
     }
     
+    const handleSubtaskClick = (index: number) => {
+        const checkbox = checkboxes_ref.current[index];
+        if(checkbox){
+            checkbox.checked = !checkbox.checked;
+        }
+    }
+
     return (
         <Modal 
             show={is_show}
@@ -72,10 +80,14 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
                 <div className="sub_tasks_container">
                     <p>Subtasks ({active_task.subtasks.filter(subtask => subtask.isCompleted).length} of {active_task.subtasks.length})</p>
                     { 
-                        active_task.subtasks.map(subtask => {
+                        active_task.subtasks.map((subtask, index) => {
                             return (
-                                <div className="sub_task"> 
-                                    <input type="checkbox" defaultChecked={subtask.isCompleted} />
+                                <div className="sub_task" onClick={() => handleSubtaskClick(index)}> 
+                                    <input 
+                                        type="checkbox" 
+                                        defaultChecked={subtask.isCompleted} 
+                                        ref={(element: HTMLInputElement) => (checkboxes_ref.current[index] = element)}
+                                    />
                                     <p>{subtask.title}</p> 
                                 </div>
                             )

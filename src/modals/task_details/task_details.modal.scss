@@ -47,10 +47,15 @@
             border-radius: 4px;
             border: 1px solid rgba(130, 143, 163, 0.25);
             color: $color_dark_4;
+            cursor: pointer;
             font: 500 13px/23px $font_primary;
             outline: none;
             padding: 10px;
             resize: none;
+
+            &:hover{
+                border: 1px solid $color_primary;
+            }
 
             &::placeholder{
                 color: rgba($color_dark_4, .5);
@@ -86,6 +91,16 @@
             display: flex;
             gap: 15px;
             padding: 15px;
+            cursor: pointer;
+
+            &:hover{
+                background: rgba($color_primary, .25);
+                color: $color_dark_4;
+            }
+
+            &:not(:last-of-type){
+                margin-bottom: 10px;
+            }
 
             input[type="checkbox"]{
                 -moz-appearance: none;
@@ -116,10 +131,6 @@
                     opacity: .5;
                     text-decoration: line-through;
                 }
-            }
-
-            &:not(:last-of-type){
-                margin-bottom: 10px;
             }
 
             p{
@@ -176,6 +187,9 @@
         .sub_tasks_container{
             .sub_task{
                 background: $color_dark_3;
+                &:hover{
+                    background: rgba($color_primary, .25);
+                }
                 input{
                     color: $color_white;
                     &::placeholder{

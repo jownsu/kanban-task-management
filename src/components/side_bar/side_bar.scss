@@ -42,7 +42,7 @@ aside{
             &.create_board{
                 button{
                     color: $color_primary;
-                    &::before{
+                    .board_icon{
                         background: url("/images/icon-board-purple.svg") center / contain no-repeat;
                     }
                 }
@@ -86,15 +86,19 @@ aside{
             background-color: $color_primary;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
             background-position: 2px center;
-            background-size: 14px;
+            background-size: 18px;
             border: none;
             cursor: pointer;
             height: 20px;
             width: 40px;
+
+            &:hover{
+                opacity: .8;
+            }
             
             &:checked{
                 background-color: $color_primary;
-                background-position: 24px center
+                background-position: 22px center
             }
 
             &:focus{
@@ -103,7 +107,6 @@ aside{
                 outline: none;
             }
         }
-
 
         .light_icon{
             background: url("/images/icon-light-theme.svg") center / contain no-repeat;
@@ -120,23 +123,33 @@ aside{
     }
 
     .btn_hide{
+        align-items: center;
         background: none;
+        border-radius: 0 100px 100px 0;
         border: none;
         color: $color_grey_3;
         cursor: pointer;
+        display: flex;
         font: $font_heading_m;
-        margin: 25px 0 47px 60px;
+        gap: 15px;
+        height: 48px;
+        margin: 8px 23px 47px 0;
         outline: none;
+        padding-left: 30px;
         position: relative;
-        width: fit-content;
         
-        &::before{
+        &:hover{
+            color: $color_primary;
+            background: rgba($color_primary, .1);
+            .hide_icon{
+                background: url("/images/icon-hide-sidebar-purple.svg");
+            }
+        }
+        
+        .hide_icon{
             background: url("/images/icon-hide-sidebar.svg");
-            content: "";
+            display: block;
             height: 16px;
-            left: -30px;
-            position: absolute;
-            top: 0;
             width: 18px;
         }
     }
@@ -163,7 +176,6 @@ aside{
 }
 
 #kanban.active{
-
     aside{
         left: 0;
         .btn_show{
@@ -174,10 +186,10 @@ aside{
             li{
                 &:hover:not(.active){
                     button{
-                        background: $color_primary_light;
-                        color: $color_white;
+                        background: rgba($color_primary, .1);
+                        color: $color_primary;
                         .board_icon{
-                            background: url("/images/icon-board-light.svg") center / contain no-repeat;
+                            background: url("/images/icon-board-purple.svg") center / contain no-repeat;
                         }
                     }
                 }
@@ -199,11 +211,35 @@ body.dark{
     aside{
         background: $color_dark_2;
         border-right-color: $color_dark_1;
+        .btn_hide{
+            &:hover{
+                background: $color_white;
+            }
+        }
         .logo{
             background-image: url("/images/logo-light.svg");
         }
         .theme{
             background-color: $color_dark_3;
+        }
+        #theme_switch{
+            &:hover{
+                opacity: 1;
+                filter: brightness(1.5);
+            }
+        }
+    }
+    #kanban.active{
+        aside{
+            ul{
+                li{
+                    &:hover:not(.active){
+                        button{
+                            background: $color_white;
+                        }
+                    }
+                }
+            }
         }
     }
 }

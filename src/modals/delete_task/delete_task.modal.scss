@@ -31,13 +31,20 @@
             font: 700 13px/23px $font_primary;
             height: 40px;
             outline: none;
+            transition: all .1s;
             &.delete_task_btn{
                 background: $color_red;
                 color: $color_white;
+                &:hover{
+                    background: $color_red_light;
+                }
             }
             &.cancel_btn{
                 color: $color_primary;
-
+                background: rgba($color_primary, .1);
+                &:hover{
+                    background: rgba($color_primary, .25);
+                }
             }
         }
     }
@@ -47,6 +54,13 @@
     #delete_task_modal{
         .modal-body{
             background: $color_dark_2;
+        }
+        .action_container{
+            button{
+                &.cancel_btn{
+                    background: $color_white;
+                }
+            }
         }
     }
 }

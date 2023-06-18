@@ -34,11 +34,14 @@
             border-radius: 4px;
             border: 1px solid rgba(130, 143, 163, 0.25);
             color: $color_dark_4;
+            cursor: pointer;
             font: 500 13px/23px $font_primary;
             outline: none;
             padding: 10px;
             resize: none;
-
+            &:hover{
+                border: 1px solid $color_primary;
+            }
             &::placeholder{
                 color: rgba($color_dark_4, .5);
             }
@@ -74,13 +77,16 @@
                 border-radius: 4px;
                 border: 1px solid rgba(130, 143, 163, 0.25);
                 color: $color_dark_4;
+                cursor: pointer;
                 flex: 1;
                 font: 500 13px/23px $font_primary;
                 margin-bottom: 12px;
                 outline: none;
                 padding: 10px;
                 resize: none;
-
+                &:hover{
+                    border: 1px solid $color_primary;
+                }
                 &::placeholder{
                     color: rgba($color_dark_4, .5);
                 }
@@ -90,7 +96,11 @@
                 border: none;
                 height: 15px;
                 outline: none;
+                transition: all .2s;
                 width: 15px;
+                &:hover{
+                    background: url("/images/icon-cross-red.svg") center / contain no-repeat;
+                }
             }
         }
     }
@@ -103,12 +113,22 @@
         font: 700 13px/23px $font_primary;
         height: 40px;
         outline: none;
+        transition: all 0.1s;
         width: 100%;
+    }
+
+    #add_column_btn{
+        &:hover{
+            background: rgba(99, 95, 199, 0.25);
+        }
     }
 
     #save_changes_btn{
         background: $color_primary;
         color: $color_white;
+        &:hover{
+            background: $color_primary_light;
+        }
     }
 }
 
