@@ -1,5 +1,5 @@
-import { FC, useState, useRef } from "react";
-import { Modal, Form, OverlayTrigger, Popover } from "react-bootstrap";
+import { FC, useState, useEffect, useRef } from "react";
+import { Modal, OverlayTrigger, Popover, Dropdown } from "react-bootstrap";
 import { Tasks } from "../../models/board.model";
 import "./task_details.modal.scss";
 
@@ -14,6 +14,22 @@ type TaskDetailsProps = {
 const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
     const { is_show, active_task, onHide, onEditTask, onDeleteTask } = props;
     const [ show_action, setShowAction ] = useState(false);
+    const [ status_items ] = useState([
+        {
+            id: 1,
+            value: "Todo"
+        },
+        {
+            id: 2,
+            value: "Doing"
+        },
+        {
+            id: 3,
+            value: "Done"
+        }
+    ]);
+    const [ selected_status, setSelectedStatus ] = useState({id: 0, value: ""}); 
+
     const checkboxes_ref = useRef<HTMLInputElement[]>([]);
 
     const handleEditClick = () => {
@@ -32,6 +48,13 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
             checkbox.checked = !checkbox.checked;
         }
     }
+
+    useEffect(() => {
+        const selected_item = status_items.find(item => item.value === active_task.status);
+        if(selected_item){
+            setSelectedStatus(selected_item);
+        }
+    }, [active_task]);
 
     return (
         <Modal 
@@ -97,26 +120,19 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
 
                 <div className="input_group">
                     <label htmlFor="status">Current Status</label>
-                    <Form.Select id="status" aria-label="Default select example">
-                        <option 
-                            value="Todo" 
-                            selected={active_task.status === "Todo"}
-                        >
-                            Todo
-                        </option>
-                        <option 
-                            value="Doing" 
-                            selected={active_task.status === "Doing"}
-                        >
-                            Doing
-                        </option>
-                        <option 
-                            value="Done" 
-                            selected={active_task.status === "Done"}
-                        >
-                            Done
-                        </option>
-                    </Form.Select>
+                    <Dropdown id="status">
+                        <Dropdown.Toggle>
+                            {selected_status.value}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {
+                                status_items.map((item) => (
+                                    <Dropdown.Item onClick={() => setSelectedStatus(item)}>{item.value}</Dropdown.Item>
+                                ))
+                            }
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
             </Modal.Body>
         </Modal>

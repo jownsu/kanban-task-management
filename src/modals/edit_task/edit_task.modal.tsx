@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Modal, Form } from "react-bootstrap";
+import { FC, useState } from "react";
+import { Modal, Dropdown } from "react-bootstrap";
 
 import "./edit_task.modal.scss";
 
@@ -10,6 +10,21 @@ type EditTaskProps = {
 
 const EditTaskModal:FC<EditTaskProps> = (props) => {
     const { is_show, onHide } = props;
+    const [ status_items ] = useState([
+        {
+            id: 1,
+            value: "Todo"
+        },
+        {
+            id: 2,
+            value: "Doing"
+        },
+        {
+            id: 3,
+            value: "Done"
+        }
+    ]);
+    const [ selected_status, setSelectedStatus ] = useState(status_items[0]); 
     
     return (
         <Modal 
@@ -42,11 +57,19 @@ const EditTaskModal:FC<EditTaskProps> = (props) => {
                 </div>
                 <div className="input_group">
                     <label htmlFor="status">Status</label>
-                    <Form.Select id="status" aria-label="Default select example">
-                        <option value="Todo">Todo</option>
-                        <option value="Doing">Doing</option>
-                        <option value="Done">Done</option>
-                    </Form.Select>
+                    <Dropdown id="status">
+                        <Dropdown.Toggle>
+                            {selected_status.value}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {
+                                status_items.map((item) => (
+                                    <Dropdown.Item onClick={() => setSelectedStatus(item)}>{item.value}</Dropdown.Item>
+                                ))
+                            }
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
                 <button type="button" id="create_task_btn">Create Task</button>
             </Modal.Body>

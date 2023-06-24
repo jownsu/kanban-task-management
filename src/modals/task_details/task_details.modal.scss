@@ -43,36 +43,52 @@
             font: $font_heading_s;
         }
 
-        select{
-            border-radius: 4px;
-            border: 1px solid rgba(130, 143, 163, 0.25);
-            color: $color_dark_4;
-            cursor: pointer;
-            font: 500 13px/23px $font_primary;
-            outline: none;
-            padding: 10px;
-            resize: none;
-
-            &:hover{
-                border: 1px solid $color_primary;
-            }
-
-            &::placeholder{
-                color: rgba($color_dark_4, .5);
-            }
-        }
-
         textarea{
             height: 112px;
         }
-    }
 
-    .form-select{
-        background-image: url("/images/icon-chevron-down.svg");
-        background-size: 12px 8px;
+        #status{
+            .dropdown-toggle{
+                align-items: center;
+                background: none;
+                border: 1px solid rgba(130, 143, 163, 0.25);
+                color: $color_dark_4;
+                display: flex;
+                font: 500 13px/23px $font_primary;
+                height: 46px;
+                justify-content: space-between;
+                width: 100%;
 
-        &:focus{
-            box-shadow: none;
+                &::after{
+                    background: url("/images/icon-chevron-down.svg") no-repeat center / contain;
+                    border: none;
+                    display: block;
+                    height: 12px;
+                    margin-right: 2px;
+                    width: 12px;
+                }
+
+                &:hover{
+                    border: 1px solid $color_primary;
+                }
+            }
+
+            .dropdown-menu{
+                border-radius: 8px;
+                overflow: hidden;
+                padding: 0;
+                width: 100%;
+
+                a{
+                    color: $color_grey_3;
+                    font: 500 13px/23px $font_primary;
+                    padding: 8px 15px;
+                    &:hover{
+                        background: $color_primary_light;
+                        color: $color_white;
+                    }
+                }
+            }
         }
     }
 
@@ -175,8 +191,7 @@
         }
 
         input, 
-        textarea,
-        select{
+        textarea{
             background: $color_dark_2;
             color: $color_white;
             &::placeholder{
@@ -207,12 +222,13 @@
             }
         }
 
-
-        .form-select{
-            background-image: url("/images/icon-chevron-down.svg");
-            background-position: right 0.75rem center;
-            background-repeat: no-repeat;
-            background-size: 12px 8px;
+        #status{
+            .dropdown-toggle{
+                color: $color_white;
+            }
+            .dropdown-menu{
+                background: $color_dark_3;
+            }
         }
 
         #add_sub_task_btn{
