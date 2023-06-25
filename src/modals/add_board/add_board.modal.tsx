@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, FormEvent } from "react";
 import { Modal } from "react-bootstrap";
 
 import "./add_board.modal.scss";
@@ -11,6 +11,10 @@ type AddBoardProps = {
 const AddBoardModal:FC<AddBoardProps> = (props) => {
     const { is_show, onHide } = props;
     
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+    }
+
     return (
         <Modal 
             show={is_show}
@@ -19,24 +23,28 @@ const AddBoardModal:FC<AddBoardProps> = (props) => {
             id="add_board_modal"
         >
             <Modal.Body>
-                <p className="title">Add New Board</p>
-                <div className="input_group">
-                    <label htmlFor="title">Name</label>
-                    <input type="text" id="title" placeholder="e.g Web design"/>
-                </div>
-                <div className="board_columns_container">
-                    <p className="label">Columns</p>
-                    <div className="column_group">
-                        <input type="text" defaultValue="Todo" />
-                        <button className="remove_btn" type="button"></button>
+                <form onSubmit={handleSubmit}>
+                    <p className="title">Add New Board</p>
+                    <div className="input_group error">
+                        <label htmlFor="title">Name</label>
+                        <input type="text" id="title" placeholder="e.g Web design"/>
+                        <p className="error_message">Can't be empty</p>
                     </div>
-                    <div className="column_group">
-                        <input type="text" defaultValue="Doing" />
-                        <button className="remove_btn" type="button"></button>
+                    <div className="board_columns_container">
+                        <p className="label">Columns</p>
+                        <div className="column_group error">
+                            <input type="text" defaultValue="Todo" />
+                            <button className="remove_btn" type="button"></button>
+                            <p className="error_message">Can't be empty</p>
+                        </div>
+                        <div className="column_group">
+                            <input type="text" defaultValue="Doing" />
+                            <button className="remove_btn" type="button"></button>
+                        </div>
+                        <button id="add_column_btn" type="button">+ Add new Column</button>
                     </div>
-                    <button id="add_column_btn" type="button">+ Add new Column</button>
-                </div>
-                <button type="button" id="create_board_btn">Create New Board</button>
+                    <button type="submit" id="create_board_btn">Create New Board</button>
+                </form>
             </Modal.Body>
         </Modal>
     );

@@ -22,6 +22,7 @@
         flex-direction: column;
         gap: 7px;
         margin-bottom: 25px;
+        position: relative;
 
         label{
             font: $font_heading_s;
@@ -94,6 +95,28 @@
                 }
             }
         }
+
+        &.error{
+            input, textarea{
+                border: 1px solid $color_red;
+            }
+
+            .error_message{
+                color: $color_red;
+                font: 500 13px/23px $font_primary;
+                position: absolute;
+            }
+
+            input ~ .error_message{
+                right: 15px;
+                top: 32px;
+            }
+
+            textarea ~ .error_message{
+                bottom: 10px;
+                right: 15px;
+            }
+        }
     }
 
     .sub_tasks_container{
@@ -109,6 +132,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 12px;
+            position: relative;
             input{
                 border-radius: 4px;
                 border: 1px solid rgba(130, 143, 163, 0.25);
@@ -136,6 +160,18 @@
                 width: 15px;
                 &:hover{
                     background: url("/images/icon-cross-red.svg") center / contain no-repeat;
+                }
+            }
+            &.error{
+                input{
+                    border: 1px solid $color_red;
+                }
+
+                .error_message{
+                    color: $color_red;
+                    font: 500 13px/23px $font_primary;
+                    position: absolute;
+                    right: 42px;
                 }
             }
         }
