@@ -3,11 +3,15 @@
 .column_list{
     display: flex;
     gap: 24px;
+    height: 100%;
     list-style-type: none;
+    margin-bottom: 0;
     min-height: 85vh;
+    overflow: auto;
     padding: 20px;
-
+    
     > li{
+        min-width: 280px;
         width: 280px;
 
         .column_item_name{

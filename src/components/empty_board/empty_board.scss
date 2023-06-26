@@ -10,9 +10,14 @@
     top: 50%;
     transform: translate(-50%, -50%);
 
+    @media only screen and (max-width: $bp_md) {
+        gap: 24px;
+    }
+
     p{
         color: $color_grey_3;
         font: $font_heading_l;
+        text-align: center;
     }
 
     button{

@@ -18,7 +18,6 @@ html{
 body{
     background: #F4F7FD;
     font-family: $font_primary;
-    min-height: 100vh;
 
     &.dark{
         background: $color_dark_3;
@@ -34,11 +33,21 @@ main{
 #kanban{
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: calc(100vh - 102px);
+    margin-top: 102px;
+
+    @media only screen and (max-width: $bp_md) {
+        height: calc(100vh - 86px);
+        margin-top: 86px;
+    }
 
     &.active{
         main{
             margin-left: 300px;
+
+            @media only screen and (max-width: $bp_md) {
+                margin-left: 260px;
+            }
         }
     }
 }

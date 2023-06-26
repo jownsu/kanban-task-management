@@ -11,7 +11,12 @@ aside{
     top: 0;
     transition: left .2s;
     width: 300px;
-    z-index: 10;
+    z-index: 60;
+
+    @media only screen and (max-width: $bp_md) {
+        left: -260px;
+        width: 260px;
+    }
 
     .logo{
         background: url("/images/logo-dark.svg") center / contain no-repeat;
@@ -81,6 +86,10 @@ aside{
         justify-content: center;
         margin: auto auto 0;
         width: 250px;
+        
+        @media only screen and (max-width: $bp_md) {
+            width: 235px;
+        }
 
         #theme_switch{
             background-color: $color_primary;

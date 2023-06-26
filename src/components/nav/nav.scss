@@ -5,6 +5,14 @@ nav{
     background: $color_white;
     display: flex;
     height: 97px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+
+    @media only screen and (max-width: $bp_md) {
+        height: 80px;    
+    }
 
     .logo{
         background: url("/images/logo-dark.svg") center / contain no-repeat;
@@ -18,7 +26,12 @@ nav{
 
     h1{
         font: $font_heading_xl;
+        margin-bottom: 0;
         transition: transform .2s;
+
+        @media only screen and (max-width: $bp_md) {
+                font-size: 20px;;
+        }
     }
 
     .btn_add{
@@ -38,6 +51,10 @@ nav{
 #kanban.active{
     h1{
         transform: translateX(90px);
+
+        @media only screen and (max-width: $bp_md) {
+            transform: translateX(43px);
+        }
     }
 }
 
