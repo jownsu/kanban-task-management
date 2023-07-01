@@ -41,12 +41,34 @@ main{
         margin-top: 86px;
     }
 
+    @media only screen and (max-width: $bp_sm){
+        .overlay{
+            opacity: 0;
+            transition: all .2s ease;
+        }
+    }
+
     &.active{
         main{
             margin-left: 300px;
 
             @media only screen and (max-width: $bp_md) {
                 margin-left: 260px;
+            }
+
+            @media only screen and (max-width: $bp_md) {
+                margin-left: 0px;
+            }
+        }
+        @media only screen and (max-width: $bp_sm){
+            .overlay{
+                background: rgba(#000, .5);
+                height: 100vh;
+                left: 0;
+                opacity: 1;
+                position: fixed;
+                top: 0;
+                width: 100vh;
             }
         }
     }
@@ -70,7 +92,7 @@ main{
     transition: all .1s;
 
     &:hover{
-        background: $color_primary_light;
+        background-color: $color_primary_light;
     }
 }
 

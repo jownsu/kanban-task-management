@@ -18,6 +18,18 @@ aside{
         width: 260px;
     }
 
+    @media only screen and (max-width: $bp-sm) {
+        border-radius: 8px;
+        height: auto;
+        left: 50% !important;
+        opacity: 0;
+        padding: 18px 0 10px;
+        position: fixed;
+        top: -100%;
+        transform: translateX(-50%);
+        transition: all .2s ease;
+    }
+
     .logo{
         background: url("/images/logo-dark.svg") center / contain no-repeat;
         background-size: 152.53px 25.22px;
@@ -25,6 +37,10 @@ aside{
         height: 90px;
         margin-bottom: 18px;
         width: 220px;
+
+        @media only screen and (max-width: $bp-sm) {
+            display: none;
+        }
     }
 
     >p{
@@ -89,6 +105,10 @@ aside{
         
         @media only screen and (max-width: $bp_md) {
             width: 235px;
+        }
+
+        @media only screen and (max-width: $bp_sm) {
+            margin-top: 5px;
         }
 
         #theme_switch{
@@ -161,6 +181,10 @@ aside{
             height: 16px;
             width: 18px;
         }
+
+        @media only screen and (max-width: $bp-sm) {
+            display: none;
+        }
     }
 
     .btn_show{
@@ -180,6 +204,10 @@ aside{
 
         &:hover{
             background-color: $color_primary_light;
+        }
+
+        @media only screen and (max-width: $bp_sm) {
+            display: none;
         }
     }
 }
@@ -212,6 +240,11 @@ aside{
                     }
                 }
             }
+        }
+
+        @media only screen and (max-width: $bp-sm) {
+            opacity: 1;
+            top: 75px;
         }
     }
 }

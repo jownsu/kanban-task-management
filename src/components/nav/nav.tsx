@@ -6,11 +6,12 @@ type NavProps = {
     onAddTaskClick: () => void;
     onEditBoard: () => void;
     onDeleteBoard: () => void;
+    onToggleNav: () => void;
 };
 
 const Nav:FC<NavProps> = (props) => {
 
-    const { onAddTaskClick, onEditBoard, onDeleteBoard } = props;
+    const { onAddTaskClick, onEditBoard, onDeleteBoard, onToggleNav } = props;
     const [ show_action, setShowAction ] = useState(false);
 
     const handleEditClick = () => {
@@ -26,13 +27,13 @@ const Nav:FC<NavProps> = (props) => {
     return (
         <nav>
             <span className="logo"></span>
-            <h1>Platform Launch</h1>
+            <h1 onClick={onToggleNav}>Platform Launch <span className="toggle_icon"></span></h1>
             <button 
                 type="button" 
                 className="btn_primary btn_add"
                 onClick={onAddTaskClick}
             >
-                + Add New Task
+                <span>+ Add New Task</span>
             </button>
             <OverlayTrigger 
                 trigger="click"

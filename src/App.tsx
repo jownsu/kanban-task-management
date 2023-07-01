@@ -59,6 +59,7 @@ function App() {
                     onAddTaskClick={() => toggleModal("add_task", true)}
                     onEditBoard={() => toggleModal("edit_board", true)}
                     onDeleteBoard={() => toggleModal("delete_board", true)}
+                    onToggleNav={() => setShowSidebar(prevState => !prevState)}
                 />
                 <SideBar 
                     onToggleShow={() => setShowSidebar(prevState => !prevState)}
@@ -68,6 +69,7 @@ function App() {
                 <main>
                     <Board />
                 </main>
+                <div className="overlay" onClick={() => setShowSidebar(false)}></div>
             </div>
             <AddTaskModal 
                 is_show={add_task}
