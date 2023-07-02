@@ -6,9 +6,9 @@ import EditBoardModal from "../../modals/edit_board/edit_board.modal";
 import "./columns.scss";
 
 const ColumnList = () => {
-    const { board, active_board } = useAppSelector(state => state.board);
+    const { active_board } = useAppSelector(state => state.board);
     const [ is_show_edit_board_modal, setShowEditBoardModal ] = useState(false);
-    const { columns } = board[active_board]; 
+    const { columns } = active_board; 
 
     return (
         <>

@@ -37,14 +37,14 @@ const SideBar: FC<SideBarProps> = (props) => {
             <p>All Boards ({board.length})</p>
             <ul>
                 {
-                    board.map((task, index) => (
-                        <li key={index} className={active_board === index ? "active" : ""}>
+                    board.map((board_item) => (
+                        <li key={board_item.id} className={active_board.id === board_item.id ? "active" : ""}>
                             <button 
                                 type="button" 
-                                onClick={() => dispatch(setActiveBoard({index}))}
+                                onClick={() => dispatch(setActiveBoard({board: board_item}))}
                             >
                                 <span className="board_icon"></span>
-                                {task.name}
+                                {board_item.name}
                             </button>
                         </li>
                     ))

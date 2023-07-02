@@ -4,13 +4,12 @@ import ColumnList from "../columns/column_list";
 
 const Board = () => {
 
-    const { active_board, board } = useAppSelector(state => state.board);
-    const selected_board = board[active_board]; 
+    const { active_board } = useAppSelector(state => state.board);
 
     return (
         <>
             {
-                (selected_board?.columns.length > 0)
+                (active_board?.columns.length > 0)
                     ? <ColumnList /> 
                     : <EmptyBoard />
             }

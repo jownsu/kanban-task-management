@@ -1,18 +1,28 @@
 export interface Board {
+    id: number,
     name: string,
     columns: Columns[],
 }
 
 export interface Columns {
+    id: number,
     name: string,
     tasks: Tasks[],
 }
 
 export interface Tasks {
+    id: number,
     title: string,
     description: string,
     status: string,
     subtasks: Subtasks[]
+}
+
+export interface NewTask {
+    title: string,
+    description: string,
+    status: string,
+    subtasks: String[]
 }
 
 export const TasksInitialState = {
@@ -23,6 +33,7 @@ export const TasksInitialState = {
 }
 
 export interface Subtasks {
+    id: number,
     title: string,
     isCompleted: boolean
 }
