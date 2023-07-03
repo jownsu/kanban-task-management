@@ -5,14 +5,22 @@ import TaskDetailsModal from "../../modals/task_details/task_details.modal";
 import EditTaskModal from "../../modals/edit_task/edit_task.modal";
 import DeleteTaskModal from "../../modals/delete_task/delete_task.modal";
 import "./task.scss";
+import { deleteTask } from "../../store/features/board_slice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 type TaskListProps = {
-    tasks: Tasks[]
+    column_id: number;
+    tasks: Tasks[];
 };
 
 const TaskList: FC<TaskListProps> = (props) => {
 
-    const { tasks } = props;
+    const { tasks, column_id } = props;
+
+    const dispatch = useAppDispatch();
+    const { active_board } = useAppSelector(state => state.board); 
+
+
     const [show_modal, setShowModal] = useState({
         task_details: false,
         edit_task: false,
@@ -36,6 +44,16 @@ const TaskList: FC<TaskListProps> = (props) => {
         setActiveTask(task);
     }
 
+    const handleDelete = () => {
+        dispatch(deleteTask({
+            board_id: active_board.id,
+            column_id: column_id,
+            task_id: active_task.id
+        }));
+        toggleModal("delete_task", false);
+        toggleModal("task_details", false);
+    }
+
     if(!tasks.length){
         return null;
     }
@@ -43,7 +61,16 @@ const TaskList: FC<TaskListProps> = (props) => {
     return (
         <>
             <ul className="task_list">
-                { tasks.map((task, index) => <TaskItem key={index} task={task} onClick={() => handleTaskClick(task)} />) }
+                { 
+                    tasks.map((task, index) => (
+                            <TaskItem
+                                key={index} 
+                                task={task} 
+                                onClick={() => handleTaskClick(task)} 
+                            />
+                        )
+                    ) 
+                }
             </ul>  
 
             <TaskDetailsModal 
@@ -70,6 +97,8 @@ const TaskList: FC<TaskListProps> = (props) => {
 
             <DeleteTaskModal
                 is_show={delete_task}
+                task={active_task}
+                onDelete={handleDelete}
                 onHide={() => {
                     toggleModal("delete_task", false);
                     toggleModal("task_details", true);

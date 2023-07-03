@@ -26,6 +26,7 @@ export interface NewTask {
 }
 
 export const TasksInitialState = {
+    id: 0,
     title: "",
     description: "",
     status: "",

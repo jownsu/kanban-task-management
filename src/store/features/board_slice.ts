@@ -45,6 +45,30 @@ export const BoardSlice = createSlice({
             state.active_board = state.board.find(board_item => board_item.id === board_id) ?? board[0];
 
             return state;
+        },
+        deleteTask: (state, action: PayloadAction<{board_id: number, column_id: number, task_id: number}>) => {
+            const { board_id, column_id, task_id } = action.payload;
+            state.board = state.board.map(board_item => {
+                if(board_item.id === board_id){
+                    return {
+                        ...board_item,
+                        columns: board_item.columns.map(column => {
+                            if(column.id === column_id){
+                                return {
+                                    ...column,
+                                    tasks: column.tasks.filter(task => task.id !== task_id)
+                                };
+                            }
+                            return column;
+                        })
+                    }
+                }
+                return board_item;
+            });
+            
+            state.active_board = state.board.find(board_item => board_item.id === board_id) ?? board[0];
+
+            return state;
         }
     }
 });
@@ -53,6 +77,6 @@ const generateRandomId = () => {
     return Math.floor(Math.random() * 1000000);
 }
 
-export const { setActiveBoard, addTask } = BoardSlice.actions;
+export const { setActiveBoard, addTask, deleteTask } = BoardSlice.actions;
 
 export default BoardSlice.reducer;

@@ -10,13 +10,13 @@ type ColumnProps = {
 
 const ColumnItem: FC<ColumnProps> = (props) => {
     const { column } = props;
-    const {name, tasks} = column;
+    const {name, tasks, id} = column;
     return (
         <li>
             <div className={`column_item_name item-${column.name}`}>
                 {name} ({tasks.length})
             </div>
-            <TaskList tasks={tasks}/>
+            <TaskList tasks={tasks} column_id={id}/>
         </li>
     );
 };
