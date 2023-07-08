@@ -1,33 +1,94 @@
-import { FC, FormEvent, useState } from "react";
+/* React */
+import { FC, useEffect }   from "react";
+
+/* Plugins */
+import { 
+    useForm, 
+    SubmitHandler, 
+    useFieldArray 
+}                          from "react-hook-form";
 import { Modal, Dropdown } from "react-bootstrap";
 
+/* Redux */
+import { useAppSelector }  from "../../store/store";
+import { Tasks, Subtasks } from "../../models/board.model";
+
+/* CSS */
 import "./edit_task.modal.scss";
 
 type EditTaskProps = {
     is_show: boolean;
     onHide: () => void;
+    active_task: Tasks;
+    onEditCallback: (new_updated_task: Inputs) => void;
+    column: Column;
 };
 
-const EditTaskModal:FC<EditTaskProps> = (props) => {
-    const { is_show, onHide } = props;
-    const [ status_items ] = useState([
-        {
-            id: 1,
-            value: "Todo"
-        },
-        {
-            id: 2,
-            value: "Doing"
-        },
-        {
-            id: 3,
-            value: "Done"
-        }
-    ]);
-    const [ selected_status, setSelectedStatus ] = useState(status_items[0]); 
+type Column = {
+    id: number,
+    name: string
+}
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
+type Inputs = {
+    id: number,
+    title: string,
+    description: string,
+    subtasks: Subtasks[],
+    status: Status
+};
+
+type Status = {
+    id: number;
+    name: string;
+}
+
+const EditTaskModal:FC<EditTaskProps> = (props) => {
+    const { is_show, onHide, active_task, onEditCallback, column } = props;
+
+    const { board } = useAppSelector(state => state.board);
+
+    const { 
+        register, 
+        handleSubmit, 
+        reset, 
+        formState: { errors }, 
+        getValues, 
+        setValue,
+        watch,
+        control 
+    } = useForm<Inputs>({
+        defaultValues: {
+            id: 0,
+            title: "",
+            description: "",
+            status: {id: 0 , name: ""},
+            subtasks: []
+        }
+    });
+
+    const { fields, remove } = useFieldArray({
+        name: "subtasks",
+        control
+    });
+    
+
+    useEffect(() => {
+        if(active_task){
+            reset({
+                id: active_task.id,
+                title: active_task.title,
+                description: active_task.description,
+                status: {id: column.id , name: column.name},
+                subtasks: active_task.subtasks
+            });
+        }
+    }, [active_task]);
+
+    const status = watch("status");
+
+    const onSubmit:SubmitHandler<Inputs> = (form_data) => {
+        onEditCallback(form_data);
+        reset();
     }
     
     return (
@@ -38,48 +99,74 @@ const EditTaskModal:FC<EditTaskProps> = (props) => {
             id="edit_task_modal"
         >
             <Modal.Body>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <p className="title">Edit Task</p>
-                    <div className="input_group error">
+                    <div className={`input_group ${errors.title && "error"}`}>
                         <label htmlFor="title">Title</label>
-                        <input type="text" id="title" placeholder="e.g Take coffee break"/>
-                        <p className="error_message">Can't be empty</p>
+                        <input 
+                            type="text" 
+                            id="title" 
+                            placeholder="e.g Take coffee break"
+                            {...register("title", { required: true })}
+                        />
+                        {errors.title && <p className="error_message">Can't be empty</p>}
                     </div>
-                    <div className="input_group error">
+                    <div className={`input_group ${errors.description && "error"}`}>
                         <label htmlFor="description">Description</label>
-                        <textarea name="description" id="description" placeholder="e.g It's always good to take a break. This 15 minute break will recharge the batteries a little"></textarea>
-                        <p className="error_message">Can't be empty</p>
+                        <textarea 
+                            id="description" 
+                            placeholder="e.g It's always good to take a break. This 15 minute break will recharge the batteries a little"
+                            {...register("description", { required: false })}
+                        ></textarea>
+                        {errors.description && <p className="error_message">Can't be empty</p>}
                     </div>
                     <div className="sub_tasks_container">
                         <p className="label">Subtasks</p>
-                        <div className="sub_task error">
-                            <input type="text" placeholder="e.g Make coffee" />
-                            <button className="remove_btn" type="button"></button>
-                            <p className="error_message">Can't be empty</p>
-                        </div>
-                        <div className="sub_task">
-                            <input type="text" placeholder="e.g Drink coffee & smile" />
-                            <button className="remove_btn" type="button"></button>
-                        </div>
-                        <button id="add_sub_task_btn" type="button">+ Add new Subtask</button>
+                        {fields.map((field, index) => {
+                                return (
+                                    <div className={`sub_task ${errors?.subtasks?.[index]?.title && "error"}`} key={field.id}>
+                                        <input 
+                                            type="text" 
+                                            placeholder="e.g Make coffee" 
+                                            {...register(`subtasks.${index}.title` as const, { required: true })}
+                                        />
+                                        {errors?.subtasks?.[index]?.title && <p className="error_message">Can't be empty</p>}
+                                        <button 
+                                            className="remove_btn" 
+                                            type="button"
+                                            onClick={() => remove(index)}
+                                        ></button>
+                                    </div>
+                                );
+                            })
+                        }
+                        <button 
+                            id="add_sub_task_btn" 
+                            type="button"
+                            onClick={() => setValue("subtasks", [...getValues("subtasks"), {id: 0, title: "", isCompleted: false}])}
+                        >
+                            + Add new Subtask
+                        </button>
                     </div>
                     <div className="input_group">
                         <label htmlFor="status">Status</label>
                         <Dropdown id="status">
                             <Dropdown.Toggle>
-                                {selected_status.value}
+                                {status.name}
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
                                 {
-                                    status_items.map((item) => (
-                                        <Dropdown.Item onClick={() => setSelectedStatus(item)}>{item.value}</Dropdown.Item>
+                                    board.columns.map((item) => (
+                                        <Dropdown.Item 
+                                            onClick={() => setValue("status", {id: item.id, name: item.name})}>{item.name}
+                                        </Dropdown.Item>
                                     ))
                                 }
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    <button type="submit" id="create_task_btn">Create Task</button>
+                    <button type="submit" id="create_task_btn">Save Changes</button>
                 </form>
             </Modal.Body>
         </Modal>

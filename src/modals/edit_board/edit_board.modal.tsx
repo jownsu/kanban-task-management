@@ -1,5 +1,5 @@
 import { FC, FormEvent } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal }         from "react-bootstrap";
 
 import "./edit_board.modal.scss";
 

@@ -1,4 +1,4 @@
-export const board = [
+export const boards = [
     {
         id: 1,
         name: "Platform Launch",
@@ -462,7 +462,7 @@ export const board = [
                         id: 1,
                         title: "Launch version one",
                         description: "",
-                        status: "",
+                        status: "Now",
                         subtasks: [
                             {
                                 id: 1,
@@ -480,7 +480,7 @@ export const board = [
                         id: 2,
                         title: "Review early feedback and plan next steps for roadmap",
                         description: "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
-                        status: "",
+                        status: "Now",
                         subtasks: [
                             {
                                 id: 1,

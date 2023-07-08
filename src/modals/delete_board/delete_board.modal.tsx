@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC }    from "react";
 import { Modal } from "react-bootstrap";
 
 import "./delete_board.modal.scss";

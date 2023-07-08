@@ -1,9 +1,15 @@
-import { FC, useEffect } from "react";
-import { Modal, Dropdown } from "react-bootstrap";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppSelector, useAppDispatch } from "../../store/store";
-import { addTask } from "../../store/features/board_slice";
+/* React */
+import { FC, useEffect }                  from "react";
 
+/* Plugins */
+import { Modal, Dropdown }                from "react-bootstrap";
+import { useForm, SubmitHandler }         from "react-hook-form";
+
+/* Redux */
+import { useAppSelector, useAppDispatch } from "../../store/store";
+import { addTask }                        from "../../store/features/board_slice";
+
+/* CSS */
 import "./add_task.modal.scss";
 
 type AddTaskProps = {
@@ -26,7 +32,7 @@ type Status = {
 const AddTaskModal:FC<AddTaskProps> = (props) => {
     const { is_show, onHide } = props;
     const dispatch = useAppDispatch();
-    const { active_board } = useAppSelector(state => state.board);
+    const { board } = useAppSelector(state => state.board);
 
     const { 
         register, 
@@ -40,7 +46,7 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
         defaultValues: {
             title: "",
             description: "",
-            status: {id: active_board.columns[0].id , name: active_board.columns[0].name},
+            status: {id: board.columns[0].id , name: board.columns[0].name},
             sub_tasks: ["", ""]
         }
     });
@@ -48,8 +54,8 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
     const [sub_tasks, status] = watch(["sub_tasks", "status"]);
 
     useEffect(() => {
-        setValue("status", {id: active_board.columns[0].id , name: active_board.columns[0].name});
-    }, [active_board]);
+        setValue("status", {id: board.columns[0].id , name: board.columns[0].name});
+    }, [board]);
 
     const handleDeleteSubTask = (index: number) => {
         setValue(`sub_tasks`, sub_tasks.filter((_, sub_task_index) => {
@@ -59,7 +65,6 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
 
     const onSubmit:SubmitHandler<Inputs> = (form_data) => {
         dispatch(addTask({
-            board_id: active_board.id,
             column_id: form_data.status.id,
             new_task: {
                 ...form_data, 
@@ -137,7 +142,7 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
 
                             <Dropdown.Menu>
                                 {
-                                    active_board.columns.map((item) => (
+                                    board.columns.map((item) => (
                                         <Dropdown.Item onClick={() => setValue("status", {id: item.id, name: item.name})}>{item.name}</Dropdown.Item>
                                     ))
                                 }

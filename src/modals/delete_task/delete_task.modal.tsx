@@ -1,6 +1,6 @@
 import { FC, FormEvent } from "react";
-import { Modal } from "react-bootstrap";
-import { Tasks } from "../../models/board.model";
+import { Modal }         from "react-bootstrap";
+import { Tasks }         from "../../models/board.model";
 
 import "./delete_task.modal.scss";
 

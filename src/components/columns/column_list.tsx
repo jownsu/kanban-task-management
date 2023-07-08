@@ -1,20 +1,30 @@
-import { useState } from "react";
-import { useAppSelector } from "../../store/store";
-import ColumnItem from "./column_item";
-import EditBoardModal from "../../modals/edit_board/edit_board.modal";
+/* React */
+import { useState }       from "react";
 
+/* Redux */
+import { useAppSelector } from "../../store/store";
+
+/* Components */
+import ColumnItem         from "./column_item";
+import EditBoardModal     from "../../modals/edit_board/edit_board.modal";
+
+/* CSS */
 import "./columns.scss";
 
 const ColumnList = () => {
-    const { active_board } = useAppSelector(state => state.board);
+    const { board } = useAppSelector(state => state.board);
     const [ is_show_edit_board_modal, setShowEditBoardModal ] = useState(false);
-    const { columns } = active_board; 
 
     return (
         <>
             <ul className="column_list">
                 {
-                    columns.map((column, index) => <ColumnItem key={index} column={column} />)
+                    board.columns.map((column_item, column_index) => (
+                        <ColumnItem 
+                            key={column_index} 
+                            column={column_item} 
+                        />
+                    ))
                 }
                 <li className="new_column">
                     <button type="button" onClick={() => setShowEditBoardModal(true)}>+ New Column</button>

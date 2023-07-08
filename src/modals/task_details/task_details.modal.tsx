@@ -1,5 +1,15 @@
-import { FC, useState, useEffect, useRef } from "react";
-import { Modal, OverlayTrigger, Popover, Dropdown } from "react-bootstrap";
+import { 
+    FC, 
+    useState, 
+    useEffect, 
+    useRef 
+}                from "react";
+import { 
+    Modal, 
+    OverlayTrigger, 
+    Popover, 
+    Dropdown 
+}                from "react-bootstrap";
 import { Tasks } from "../../models/board.model";
 import "./task_details.modal.scss";
 

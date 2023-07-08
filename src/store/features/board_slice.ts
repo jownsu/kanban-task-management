@@ -1,55 +1,189 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { board } from "../../assets/data";
-import { Board, NewTask } from "../../models/board.model";
+import { boards }                     from "../../assets/data";
+import { Board, NewTask, UpdateTask } from "../../models/board.model";
+
+let board_data = [...boards];
 
 const initialState = {
-    board: board,
-    active_board: board[0]
+    boards: board_data.map(board_item => ({id: board_item.id, name: board_item.name})),
+    board: board_data[0],
+    active_board: board_data[0].id
 };
 
 export const BoardSlice = createSlice({
     name: "board",
     initialState,
     reducers: {
-        setActiveBoard: (state, action: PayloadAction<{board: Board}>) => {
-            state.active_board = action.payload.board;
+        setActiveBoard: (state, action: PayloadAction<{board_id: number}>) => {
+            const { board_id } = action.payload
+            state.active_board = board_id;
+            state.board = board_data.find(board_item => board_item.id === board_id) as Board;
             return state;
         },
-        addTask: (state, action: PayloadAction<{board_id: number, column_id: number, new_task: NewTask}>) => {
-            const { board_id, column_id, new_task } = action.payload;
+        addTask: (state, action: PayloadAction<{column_id: number, new_task: NewTask}>) => {
+            const { column_id, new_task } = action.payload;
 
-            state.board = state.board.map(board_item => {
-                if(board_item.id === board_id){
-                    board_item.columns.map(column => {
-                        if(column.id === column_id){
-                            column.tasks.push(
-                                {
-                                    id: generateRandomId(),
-                                    title: new_task.title,
-                                    description: new_task.description,
-                                    status: new_task.status,
-                                    subtasks: new_task.subtasks.map(item => ({
-                                        id: generateRandomId(),
-                                        title: item.toString(),
-                                        isCompleted: false
-                                    }))
+            let new_task_data = {
+                id: generateRandomId(),
+                title: new_task.title,
+                description: new_task.description,
+                status: new_task.status,
+                subtasks: new_task.subtasks.map(subtask => ({
+                    id: generateRandomId(),
+                    title: subtask.toString(),
+                    isCompleted: false
+                }))
+            }
+
+            /* State Changes */
+            state.board.columns.map(column => {
+                if(column.id === column_id){
+                    column.tasks.push(new_task_data);
+                }
+                return column;
+            })
+
+            /* Dummy Data Changes */
+            board_data = board_data.map(board_item => {
+                if(board_item.id === state.active_board){
+                    return {
+                        ...board_item,
+                        columns: board_item.columns.map(column => {
+                            if(column.id === column_id){
+                                return {
+                                    ...column,
+                                    tasks: [...column.tasks, new_task_data]
                                 }
-                            );
-                        }
-                        return column;
-                    })
+                            }
+                            return column;
+                        })
+                    }
                 }
                 return board_item;
-            });
+            })
+            return state;
+        },
+        editTask: (state, action: PayloadAction<{column_id: number, task_id: number, update_task: UpdateTask}>) => {
+            const { column_id, task_id, update_task } = action.payload;
+            
+            let random_id = generateRandomId();
+            let updated_task_data = {
+                title: update_task.title,
+                description: update_task.description,
+                status: update_task.status.name,
+                subtasks: update_task.subtasks.map(subtask => ({
+                    id: subtask.id === 0 ? random_id : subtask.id,
+                    title: subtask.title.toString(),
+                    isCompleted: subtask.isCompleted === null ? false : subtask.isCompleted
+                })),
+            }
 
-            state.active_board = state.board.find(board_item => board_item.id === board_id) ?? board[0];
+            /* State Changes */
+            if(column_id === update_task.status.id){
+                state.board.columns = state.board.columns.map(column => {
+                    if(column.id === column_id){
+                        return {
+                            ...column,
+                            tasks: column.tasks.map(task => {
+                                if(task.id === task_id){
+                                    return {id: task.id, ...updated_task_data};
+                                }
+                                return task;
+                            })
+                        };
+                    }
+                    return column;
+                });
+            }
+            /* Moving of task to other columns */
+            else{
+                state.board.columns = state.board.columns.map(column => {
+                    if(column.id === update_task.status.id){
+                        return {
+                            ...column,
+                            tasks: [...column.tasks, {id: random_id, ...updated_task_data}]
+                        };
+                    }
+                    else{
+                        return {
+                            ...column,
+                            tasks: column.tasks.filter(task => task.id !== task_id)
+                        }
+                    }
+                });
+            }
+
+            /* Dummy Data */
+            if(column_id === update_task.status.id){
+                board_data = board_data.map(board_item => {
+                    if(board_item.id === state.active_board){
+                        return {
+                            ...board_item,
+                            columns: board_item.columns.map(column => {
+                                if(column.id === column_id){
+                                    return {
+                                        ...column,
+                                        tasks: column.tasks.map(task => {
+                                            /* UPDATING CODE */
+                                            if(task.id === task_id){
+                                                return {
+                                                    ...task,
+                                                    ...updated_task_data
+                                                }
+                                            }
+                                            return task;
+                                        })
+                                    };
+                                }
+                                return column;
+                            })
+                        }
+                    }
+                    return board_item;
+                })
+            }
+            else{
+                board_data = board_data.map(board_item => {
+                    if(board_item.id === state.active_board){
+                        return {
+                            ...board_item,
+                            columns: board_item.columns.map(column => {
+                                if(column.id === update_task.status.id){
+                                    return {
+                                        ...column,
+                                        tasks: [...column.tasks, {id: random_id, ...updated_task_data}]
+                                    };
+                                }
+                                else{
+                                    return {
+                                        ...column,
+                                        tasks: column.tasks.filter(task => task.id !== task_id)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                    return board_item;
+                })
+            }
 
             return state;
         },
-        deleteTask: (state, action: PayloadAction<{board_id: number, column_id: number, task_id: number}>) => {
-            const { board_id, column_id, task_id } = action.payload;
-            state.board = state.board.map(board_item => {
-                if(board_item.id === board_id){
+        deleteTask: (state, action: PayloadAction<{column_id: number, task_id: number}>) => {
+            const { column_id, task_id } = action.payload;
+
+            state.board.columns = state.board.columns.map(column => {
+                if(column.id === column_id){
+                    return {
+                        ...column,
+                        tasks: column.tasks.filter(task => task.id !== task_id)
+                    };
+                }
+                return column;
+            });
+
+            board_data = board_data.map(board_item => {
+                if(board_item.id === state.active_board){
                     return {
                         ...board_item,
                         columns: board_item.columns.map(column => {
@@ -57,17 +191,14 @@ export const BoardSlice = createSlice({
                                 return {
                                     ...column,
                                     tasks: column.tasks.filter(task => task.id !== task_id)
-                                };
+                                }
                             }
                             return column;
                         })
                     }
                 }
                 return board_item;
-            });
-            
-            state.active_board = state.board.find(board_item => board_item.id === board_id) ?? board[0];
-
+            })
             return state;
         }
     }
@@ -77,6 +208,11 @@ const generateRandomId = () => {
     return Math.floor(Math.random() * 1000000);
 }
 
-export const { setActiveBoard, addTask, deleteTask } = BoardSlice.actions;
+export const { 
+    setActiveBoard, 
+    addTask, 
+    deleteTask, 
+    editTask 
+} = BoardSlice.actions;
 
 export default BoardSlice.reducer;

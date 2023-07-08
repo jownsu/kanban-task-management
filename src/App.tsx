@@ -1,13 +1,17 @@
-import { useState, useEffect, ChangeEvent } from "react";
+/* React */
+import { 
+    useState, 
+    useEffect, 
+    ChangeEvent 
+}                       from "react";
 
 /* Components */
-import Nav from "./components/nav/nav";
-import SideBar from "./components/side_bar/side_bar";
-import Board from "./components/board/board";
-import AddTaskModal from "./modals/add_task/add_task.modal";
-import EditTaskModal from "./modals/edit_task/edit_task.modal";
-import AddBoardModal from "./modals/add_board/add_board.modal";
-import EditBoardModal from "./modals/edit_board/edit_board.modal";
+import Nav              from "./components/nav/nav";
+import SideBar          from "./components/side_bar/side_bar";
+import Board            from "./components/board/board";
+import AddTaskModal     from "./modals/add_task/add_task.modal";
+import AddBoardModal    from "./modals/add_board/add_board.modal";
+import EditBoardModal   from "./modals/edit_board/edit_board.modal";
 import DeleteBoardModal from "./modals/delete_board/delete_board.modal";
 
 function App() {
@@ -15,13 +19,12 @@ function App() {
     const [show_sidebar, setShowSidebar] = useState(true);
     const [show_modal, setShowModal] = useState({
         add_task: false,
-        edit_task: false,
         add_board: false,
         edit_board: false,
         delete_board: false
     });
 
-    const { add_task, edit_task, add_board, edit_board, delete_board } = show_modal;
+    const { add_task, add_board, edit_board, delete_board } = show_modal;
 
 
     const toggleModal = (modal: string, value: boolean) => {
@@ -74,10 +77,6 @@ function App() {
             <AddTaskModal 
                 is_show={add_task}
                 onHide={() => toggleModal("add_task", false)}
-            />
-            <EditTaskModal
-                is_show={edit_task}
-                onHide={() => toggleModal("edit_task", false)}
             />
             <AddBoardModal 
                 is_show={add_board}

@@ -25,6 +25,19 @@ export interface NewTask {
     subtasks: String[]
 }
 
+export interface UpdateTask {
+    id: number,
+    title: string,
+    description: string,
+    status: Status,
+    subtasks: Subtasks[]
+}
+
+export interface Status {
+    id: number;
+    name: string;
+}
+
 export const TasksInitialState = {
     id: 0,
     title: "",

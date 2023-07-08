@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC }    from "react";
 import { Tasks } from "../../models/board.model";
 import "./task.scss";
 
