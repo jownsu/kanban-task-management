@@ -86,7 +86,7 @@ export const boards = [
                 name: "Doing",
                 tasks: [
                     {
-                        id: 1,
+                        id: 5,
                         title: "Design settings and search pages",
                         description: "",
                         status: "Doing",
@@ -109,7 +109,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 2,
+                        id: 6,
                         title: "Add account management endpoints",
                         description: "",
                         status: "Doing",
@@ -132,7 +132,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 3,
+                        id: 7,
                         title: "Design onboarding flow",
                         description: "",
                         status: "Doing",
@@ -155,7 +155,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 4,
+                        id: 8,
                         title: "Add search enpoints",
                         description: "",
                         status: "Doing",
@@ -173,7 +173,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 5,
+                        id: 9,
                         title: "Add authentication endpoints",
                         description: "",
                         status: "Doing",
@@ -191,7 +191,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 6,
+                        id: 10,
                         title: "Research pricing points of various competitors and trial different business models",
                         description: "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
                         status: "Doing",
@@ -220,7 +220,7 @@ export const boards = [
                 name: "Done",
                 tasks: [
                     {
-                        id: 1,
+                        id: 11,
                         title: "Conduct 5 wireframe tests",
                         description: "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
                         status: "Done",
@@ -233,7 +233,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 2,
+                        id: 12,
                         title: "Create wireframe prototype",
                         description: "Create a greyscale clickable wireframe prototype to test our asssumptions so far.",
                         status: "Done",
@@ -246,7 +246,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 3,
+                        id: 13,
                         title: "Review results of usability tests and iterate",
                         description: "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
                         status: "Done",
@@ -269,7 +269,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 4,
+                        id: 14,
                         title: "Create paper prototypes and conduct 10 usability tests with potential customers",
                         description: "",
                         status: "Done",
@@ -287,7 +287,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 5,
+                        id: 15,
                         title: "Market discovery",
                         description: "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
                         status: "Done",
@@ -300,7 +300,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 6,
+                        id: 16,
                         title: "Competitor analysis",
                         description: "",
                         status: "Done",
@@ -318,7 +318,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 7,
+                        id: 17,
                         title: "Research the market",
                         description: "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
                         status: "Done",
@@ -348,7 +348,7 @@ export const boards = [
                 name: "Todo",
                 tasks: [
                     {
-                        id: 1,
+                        id: 18,
                         title: "Plan Product Hunt launch",
                         description: "",
                         status: "Todo",
@@ -386,7 +386,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 2,
+                        id: 19,
                         title: "Share on Show HN",
                         description: "",
                         status: "",
@@ -409,7 +409,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 3,
+                        id: 20,
                         title: "Write launch article to publish on multiple channels",
                         description: "",
                         status: "",
@@ -459,7 +459,7 @@ export const boards = [
                 name: "Now",
                 tasks: [
                     {
-                        id: 1,
+                        id: 21,
                         title: "Launch version one",
                         description: "",
                         status: "Now",
@@ -477,7 +477,7 @@ export const boards = [
                         ]
                     },
                     {
-                        id: 2,
+                        id: 22,
                         title: "Review early feedback and plan next steps for roadmap",
                         description: "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
                         status: "Now",

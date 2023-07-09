@@ -110,6 +110,7 @@ const TaskList: FC<TaskListProps> = (props) => {
 
             <TaskDetailsModal 
                 is_show={task_details}
+                column={column}
                 onHide={() => toggleModal("task_details", false)}
                 onEditTask={() => {
                     toggleModal("task_details", false);

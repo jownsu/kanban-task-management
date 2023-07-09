@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { boards }                     from "../../assets/data";
-import { Board, NewTask, UpdateTask } from "../../models/board.model";
+import { Board, NewTask, UpdateTask, Tasks } from "../../models/board.model";
 
 let board_data = [...boards];
 
@@ -200,6 +200,83 @@ export const BoardSlice = createSlice({
                 return board_item;
             })
             return state;
+        },
+        updateTaskStatus: (state, action: PayloadAction<{column_id: number, task_id: number, status_id: number}>) => {
+            const { column_id, task_id, status_id } = action.payload;
+
+            let selected_task: Tasks;
+
+
+            state.board.columns = state.board.columns.map((column_item) => {
+                if(column_item.id === column_id){
+                    column_item.tasks.map(task_item => {
+                        if(task_item.id === task_id){
+                            selected_task = task_item;
+                        }
+                    });
+                }
+
+                return{
+                    ...column_item,
+                    tasks: column_item.tasks.filter(task_item => task_item.id !== task_id)
+                }
+            });
+
+            state.board.columns = state.board.columns.map(column => {
+                if(column.id === status_id){
+                    return {
+                        ...column,
+                        tasks: [...column.tasks, selected_task]
+                    }
+                }
+                return column;
+            });
+
+
+            let dummy_selected_task : Tasks;
+
+            board_data = board_data.map(board_item => {
+                if(board_item.id === state.active_board){
+                    return {
+                        ...board_item,
+                        columns: board_item.columns.map(column_item => {
+                            if(column_item.id === column_id){
+                                column_item.tasks.map(task_item => {
+                                    if(task_item.id === task_id){
+                                        dummy_selected_task = task_item as Tasks;
+                                    }
+                                });
+                            }
+                            
+                            return{
+                                ...column_item,
+                                tasks: column_item.tasks.filter(task_item => task_item.id !== task_id)
+                            }
+                        })
+                    }
+                
+                }
+                return board_item;
+            });
+
+            board_data = board_data.map(board_item => {
+                if(board_item.id === state.active_board){
+                    return {
+                        ...board_item,
+                        columns: board_item.columns.map(column_item => {
+                            if(column_item.id === status_id){
+                                return {
+                                    ...column_item,
+                                    tasks: [...column_item.tasks, dummy_selected_task]
+                                }
+                            }
+                            return column_item;
+                        })
+                    }
+                }
+                return board_item;
+            });
+            return state;
         }
     }
 });
@@ -212,7 +289,8 @@ export const {
     setActiveBoard, 
     addTask, 
     deleteTask, 
-    editTask 
+    editTask,
+    updateTaskStatus
 } = BoardSlice.actions;
 
 export default BoardSlice.reducer;

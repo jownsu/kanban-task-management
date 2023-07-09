@@ -1,16 +1,25 @@
+/* React */
 import { 
     FC, 
     useState, 
     useEffect, 
     useRef 
 }                from "react";
+
+/* Plugins */
 import { 
     Modal, 
     OverlayTrigger, 
     Popover, 
     Dropdown 
 }                from "react-bootstrap";
+
+/* Redux */
 import { Tasks } from "../../models/board.model";
+import { useAppSelector, useAppDispatch} from "../../store/store";
+import { updateTaskStatus } from "../../store/features/board_slice";
+
+/* CSS */
 import "./task_details.modal.scss";
 
 type TaskDetailsProps = {
@@ -19,26 +28,20 @@ type TaskDetailsProps = {
     onEditTask: () => void;
     onDeleteTask: () => void;
     active_task: Tasks;
+    column: Column
 };
 
+type Column = {
+    id: number,
+    name: string
+}
+
 const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
-    const { is_show, active_task, onHide, onEditTask, onDeleteTask } = props;
+    const { is_show, active_task, column, onHide, onEditTask, onDeleteTask } = props;
+    const dispatch = useAppDispatch();
+    const { board } = useAppSelector(state => state.board);
     const [ show_action, setShowAction ] = useState(false);
-    const [ status_items ] = useState([
-        {
-            id: 1,
-            value: "Todo"
-        },
-        {
-            id: 2,
-            value: "Doing"
-        },
-        {
-            id: 3,
-            value: "Done"
-        }
-    ]);
-    const [ selected_status, setSelectedStatus ] = useState({id: 0, value: ""}); 
+    const [ selected_status, setSelectedStatus ] = useState({id: column.id, name: column.name}); 
 
     const checkboxes_ref = useRef<HTMLInputElement[]>([]);
 
@@ -59,11 +62,18 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
         }
     }
 
+    const handleStatusClick = (status: Column) => {
+        setSelectedStatus(status);
+        dispatch(updateTaskStatus({
+            column_id: column.id,
+            task_id: active_task.id, 
+            status_id: status.id
+        }));
+        onHide();
+    }
+
     useEffect(() => {
-        const selected_item = status_items.find(item => item.value === active_task.status);
-        if(selected_item){
-            setSelectedStatus(selected_item);
-        }
+        setSelectedStatus({id: column.id, name: column.name});
     }, [active_task]);
 
     return (
@@ -132,13 +142,15 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
                     <label htmlFor="status">Current Status</label>
                     <Dropdown id="status">
                         <Dropdown.Toggle>
-                            {selected_status.value}
+                            {selected_status.name}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
                             {
-                                status_items.map((item) => (
-                                    <Dropdown.Item onClick={() => setSelectedStatus(item)}>{item.value}</Dropdown.Item>
+                                board.columns.map((item) => (
+                                    <Dropdown.Item 
+                                        onClick={() => handleStatusClick(item)}>{item.name}
+                                    </Dropdown.Item>
                                 ))
                             }
                         </Dropdown.Menu>
