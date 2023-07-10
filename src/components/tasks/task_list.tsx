@@ -1,5 +1,9 @@
 /* React */
-import { useState, FC }         from "react";
+import { 
+    useState, 
+    useEffect, 
+    FC 
+}                               from "react";
 
 /* Redux */
 import { 
@@ -54,6 +58,13 @@ const TaskList: FC<TaskListProps> = (props) => {
 
     const { task_details, edit_task, delete_task } = show_modal;
 
+    useEffect(() => {
+        let updated_active_task = tasks.find(task => task.id === active_task.id);
+        if(updated_active_task){
+            setActiveTask(updated_active_task);
+        }
+    }, [tasks]);
+
     const toggleModal = (modal: string, value: boolean) => {
         setShowModal(prevState => (
             {...prevState, [modal]: value}
@@ -83,10 +94,6 @@ const TaskList: FC<TaskListProps> = (props) => {
 
         toggleModal("edit_task", false);
         toggleModal("task_details", column.id === updated_task.status.id);
-        setActiveTask({
-            ...updated_task,
-            status: updated_task.status.name
-        });
     }
 
     if(!tasks.length){

@@ -2,12 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { boards }                     from "../../assets/data";
 import { Board, NewTask, UpdateTask, Tasks } from "../../models/board.model";
 
-let board_data = [...boards];
-
 const initialState = {
-    boards: board_data.map(board_item => ({id: board_item.id, name: board_item.name})),
-    board: board_data[0],
-    active_board: board_data[0].id
+    board_data: [...boards],
+    boards: boards.map(board_item => ({id: board_item.id, name: board_item.name})),
+    board: boards[0],
+    active_board: boards[0].id
 };
 
 export const BoardSlice = createSlice({
@@ -17,11 +16,11 @@ export const BoardSlice = createSlice({
         setActiveBoard: (state, action: PayloadAction<{board_id: number}>) => {
             const { board_id } = action.payload
             state.active_board = board_id;
-            state.board = board_data.find(board_item => board_item.id === board_id) as Board;
+            state.board = state.board_data.find(board_item => board_item.id === board_id) as Board;
             return state;
         },
-        addTask: (state, action: PayloadAction<{column_id: number, new_task: NewTask}>) => {
-            const { column_id, new_task } = action.payload;
+        addTask: (state, action: PayloadAction<{new_task: NewTask}>) => {
+            const { new_task } = action.payload;
 
             let new_task_data = {
                 id: generateRandomId(),
@@ -37,30 +36,16 @@ export const BoardSlice = createSlice({
 
             /* State Changes */
             state.board.columns.map(column => {
-                if(column.id === column_id){
+                if(column.id === state.active_board){
                     column.tasks.push(new_task_data);
                 }
                 return column;
             })
 
-            /* Dummy Data Changes */
-            board_data = board_data.map(board_item => {
-                if(board_item.id === state.active_board){
-                    return {
-                        ...board_item,
-                        columns: board_item.columns.map(column => {
-                            if(column.id === column_id){
-                                return {
-                                    ...column,
-                                    tasks: [...column.tasks, new_task_data]
-                                }
-                            }
-                            return column;
-                        })
-                    }
-                }
-                return board_item;
-            })
+            state.board_data = state.board_data.map(board => (
+                board.id === state.active_board ? state.board : board
+            ))
+
             return state;
         },
         editTask: (state, action: PayloadAction<{column_id: number, task_id: number, update_task: UpdateTask}>) => {
@@ -78,7 +63,6 @@ export const BoardSlice = createSlice({
                 })),
             }
 
-            /* State Changes */
             if(column_id === update_task.status.id){
                 state.board.columns = state.board.columns.map(column => {
                     if(column.id === column_id){
@@ -113,59 +97,9 @@ export const BoardSlice = createSlice({
                 });
             }
 
-            /* Dummy Data */
-            if(column_id === update_task.status.id){
-                board_data = board_data.map(board_item => {
-                    if(board_item.id === state.active_board){
-                        return {
-                            ...board_item,
-                            columns: board_item.columns.map(column => {
-                                if(column.id === column_id){
-                                    return {
-                                        ...column,
-                                        tasks: column.tasks.map(task => {
-                                            /* UPDATING CODE */
-                                            if(task.id === task_id){
-                                                return {
-                                                    ...task,
-                                                    ...updated_task_data
-                                                }
-                                            }
-                                            return task;
-                                        })
-                                    };
-                                }
-                                return column;
-                            })
-                        }
-                    }
-                    return board_item;
-                })
-            }
-            else{
-                board_data = board_data.map(board_item => {
-                    if(board_item.id === state.active_board){
-                        return {
-                            ...board_item,
-                            columns: board_item.columns.map(column => {
-                                if(column.id === update_task.status.id){
-                                    return {
-                                        ...column,
-                                        tasks: [...column.tasks, {id: random_id, ...updated_task_data}]
-                                    };
-                                }
-                                else{
-                                    return {
-                                        ...column,
-                                        tasks: column.tasks.filter(task => task.id !== task_id)
-                                    }
-                                }
-                            })
-                        }
-                    }
-                    return board_item;
-                })
-            }
+            state.board_data = state.board_data.map(board => (
+                board.id === state.active_board ? state.board : board
+            ))
 
             return state;
         },
@@ -182,23 +116,10 @@ export const BoardSlice = createSlice({
                 return column;
             });
 
-            board_data = board_data.map(board_item => {
-                if(board_item.id === state.active_board){
-                    return {
-                        ...board_item,
-                        columns: board_item.columns.map(column => {
-                            if(column.id === column_id){
-                                return {
-                                    ...column,
-                                    tasks: column.tasks.filter(task => task.id !== task_id)
-                                }
-                            }
-                            return column;
-                        })
-                    }
-                }
-                return board_item;
-            })
+            state.board_data = state.board_data.map(board => (
+                board.id === state.active_board ? state.board : board
+            ))
+
             return state;
         },
         updateTaskStatus: (state, action: PayloadAction<{column_id: number, task_id: number, status_id: number}>) => {
@@ -232,50 +153,46 @@ export const BoardSlice = createSlice({
                 return column;
             });
 
+            state.board_data = state.board_data.map(board => (
+                board.id === state.active_board ? state.board : board
+            ))
 
-            let dummy_selected_task : Tasks;
+            return state;
+        },
+        updateSubTask: (state, action: PayloadAction<{column_id: number, task_id: number, sub_task_id: number}>) => {
 
-            board_data = board_data.map(board_item => {
-                if(board_item.id === state.active_board){
+            const { column_id, task_id, sub_task_id } = action.payload;
+
+            state.board.columns = state.board.columns.map((column_item) => {
+                if(column_item.id === column_id){
                     return {
-                        ...board_item,
-                        columns: board_item.columns.map(column_item => {
-                            if(column_item.id === column_id){
-                                column_item.tasks.map(task_item => {
-                                    if(task_item.id === task_id){
-                                        dummy_selected_task = task_item as Tasks;
-                                    }
-                                });
-                            }
-                            
-                            return{
-                                ...column_item,
-                                tasks: column_item.tasks.filter(task_item => task_item.id !== task_id)
-                            }
-                        })
-                    }
-                
-                }
-                return board_item;
-            });
-
-            board_data = board_data.map(board_item => {
-                if(board_item.id === state.active_board){
-                    return {
-                        ...board_item,
-                        columns: board_item.columns.map(column_item => {
-                            if(column_item.id === status_id){
+                        ...column_item,
+                        tasks: column_item.tasks.map(task_item => {
+                            if(task_item.id === task_id){
                                 return {
-                                    ...column_item,
-                                    tasks: [...column_item.tasks, dummy_selected_task]
+                                    ...task_item,
+                                    subtasks: task_item.subtasks.map(sub_task_item => {
+                                        if(sub_task_item.id === sub_task_id){
+                                            return {
+                                                ...sub_task_item,
+                                                isCompleted: !sub_task_item.isCompleted
+                                            }
+                                        }
+                                        return sub_task_item;
+                                    })
                                 }
                             }
-                            return column_item;
+                            return task_item;
                         })
                     }
                 }
-                return board_item;
+                return column_item;
             });
+
+            state.board_data = state.board_data.map(board => (
+                board.id === state.active_board ? state.board : board
+            ));
+
             return state;
         }
     }
@@ -290,7 +207,8 @@ export const {
     addTask, 
     deleteTask, 
     editTask,
-    updateTaskStatus
+    updateTaskStatus,
+    updateSubTask
 } = BoardSlice.actions;
 
 export default BoardSlice.reducer;

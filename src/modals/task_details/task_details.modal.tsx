@@ -2,9 +2,8 @@
 import { 
     FC, 
     useState, 
-    useEffect, 
     useRef 
-}                from "react";
+}                   from "react";
 
 /* Plugins */
 import { 
@@ -12,12 +11,18 @@ import {
     OverlayTrigger, 
     Popover, 
     Dropdown 
-}                from "react-bootstrap";
+}                   from "react-bootstrap";
 
 /* Redux */
-import { Tasks } from "../../models/board.model";
-import { useAppSelector, useAppDispatch} from "../../store/store";
-import { updateTaskStatus } from "../../store/features/board_slice";
+import { Tasks }    from "../../models/board.model";
+import { 
+    useAppSelector, 
+    useAppDispatch
+}                   from "../../store/store";
+import { 
+    updateTaskStatus, 
+    updateSubTask 
+}                   from "../../store/features/board_slice";
 
 /* CSS */
 import "./task_details.modal.scss";
@@ -28,7 +33,7 @@ type TaskDetailsProps = {
     onEditTask: () => void;
     onDeleteTask: () => void;
     active_task: Tasks;
-    column: Column
+    column: Column;
 };
 
 type Column = {
@@ -41,7 +46,6 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
     const dispatch = useAppDispatch();
     const { board } = useAppSelector(state => state.board);
     const [ show_action, setShowAction ] = useState(false);
-    const [ selected_status, setSelectedStatus ] = useState({id: column.id, name: column.name}); 
 
     const checkboxes_ref = useRef<HTMLInputElement[]>([]);
 
@@ -55,15 +59,19 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
         onDeleteTask();
     }
     
-    const handleSubtaskClick = (index: number) => {
+    const handleSubtaskClick = (index: number, sub_task_id: number) => {
         const checkbox = checkboxes_ref.current[index];
         if(checkbox){
             checkbox.checked = !checkbox.checked;
+            dispatch(updateSubTask({
+                column_id: column.id,
+                task_id: active_task.id, 
+                sub_task_id: sub_task_id
+            }));
         }
     }
 
     const handleStatusClick = (status: Column) => {
-        setSelectedStatus(status);
         dispatch(updateTaskStatus({
             column_id: column.id,
             task_id: active_task.id, 
@@ -71,10 +79,6 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
         }));
         onHide();
     }
-
-    useEffect(() => {
-        setSelectedStatus({id: column.id, name: column.name});
-    }, [active_task]);
 
     return (
         <Modal 
@@ -125,7 +129,10 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
                     { 
                         active_task.subtasks.map((subtask, index) => {
                             return (
-                                <div className="sub_task" onClick={() => handleSubtaskClick(index)}> 
+                                <div 
+                                    className="sub_task" 
+                                    onClick={() => handleSubtaskClick(index, subtask.id)}
+                                > 
                                     <input 
                                         type="checkbox" 
                                         defaultChecked={subtask.isCompleted} 
@@ -142,7 +149,7 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
                     <label htmlFor="status">Current Status</label>
                     <Dropdown id="status">
                         <Dropdown.Toggle>
-                            {selected_status.name}
+                            {column.name}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
