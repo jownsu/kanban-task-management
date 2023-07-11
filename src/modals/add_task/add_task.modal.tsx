@@ -46,7 +46,7 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
         defaultValues: {
             title: "",
             description: "",
-            status: {id: board.columns[0].id , name: board.columns[0].name},
+            status: {id: 0 , name: ""},
             sub_tasks: ["", ""]
         }
     });
@@ -54,7 +54,9 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
     const [sub_tasks, status] = watch(["sub_tasks", "status"]);
 
     useEffect(() => {
-        setValue("status", {id: board.columns[0].id , name: board.columns[0].name});
+        if(board?.columns.length){
+            setValue("status", {id: board.columns[0].id , name: board.columns[0].name});
+        }
     }, [board]);
 
     const handleDeleteSubTask = (index: number) => {
@@ -142,7 +144,7 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
 
                             <Dropdown.Menu>
                                 {
-                                    board.columns.map((item) => (
+                                    board?.columns.map((item) => (
                                         <Dropdown.Item onClick={() => setValue("status", {id: item.id, name: item.name})}>{item.name}</Dropdown.Item>
                                     ))
                                 }

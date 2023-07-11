@@ -133,3 +133,22 @@ main{
         box-shadow: rgba(79, 81, 83, 0.2) 0px 8px 24px;
     }
 }
+
+
+::-webkit-scrollbar-track
+{
+	border: 5px solid $color_primary_light;
+	background-color: $color_primary_light;
+}
+
+::-webkit-scrollbar
+{
+	width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: $color_primary;
+	border-radius: 10px;
+}

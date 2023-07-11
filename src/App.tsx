@@ -70,7 +70,7 @@ function App() {
                     onCreateBoardClick={() => toggleModal("add_board", true)}
                 />
                 <main>
-                    <Board />
+                    <Board onAddNewBoard={() => toggleModal("add_board", true)} />
                 </main>
                 <div className="overlay" onClick={() => setShowSidebar(false)}></div>
             </div>

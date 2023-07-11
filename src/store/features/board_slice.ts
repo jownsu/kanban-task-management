@@ -19,8 +19,8 @@ export const BoardSlice = createSlice({
             state.board = state.board_data.find(board_item => board_item.id === board_id) as Board;
             return state;
         },
-        addTask: (state, action: PayloadAction<{new_task: NewTask}>) => {
-            const { new_task } = action.payload;
+        addTask: (state, action: PayloadAction<{new_task: NewTask, column_id: number}>) => {
+            const { column_id, new_task } = action.payload;
 
             let new_task_data = {
                 id: generateRandomId(),
@@ -33,10 +33,10 @@ export const BoardSlice = createSlice({
                     isCompleted: false
                 }))
             }
-
+            
             /* State Changes */
             state.board.columns.map(column => {
-                if(column.id === state.active_board){
+                if(column.id === column_id){
                     column.tasks.push(new_task_data);
                 }
                 return column;
@@ -194,6 +194,49 @@ export const BoardSlice = createSlice({
             ));
 
             return state;
+        },
+        addBoard: (state, action: PayloadAction<{board_name: string, columns_name: string[]}>) => {
+
+            const { board_name, columns_name } = action.payload;
+
+            let new_board_data = {
+                id: generateRandomId(),
+                name: board_name,
+                columns: columns_name.map(column_item => ({
+                    id: generateRandomId(),
+                    name: column_item,
+                    tasks: []
+                }))
+            };
+
+            state.board_data.push(new_board_data);
+            state.boards.push({
+                id: new_board_data.id,
+                name: new_board_data.name
+            });
+
+            /* Set the active board */
+            state.active_board = new_board_data.id;
+            state.board = state.board_data.find(board_item => board_item.id === new_board_data.id) as Board;
+
+            return state;
+        },
+        deleteBoard: (state) => {
+            
+            state.boards = state.boards.filter(board_item => board_item.id !== state.active_board);
+            state.board_data = state.board_data.filter(board_item => board_item.id !== state.active_board);
+            
+            let id = state.boards[0]?.id;
+
+            if(id){
+                state.active_board = id;
+                state.board = state.board_data.find(board_item => board_item.id === id) as Board;
+            }
+            else{
+                state.active_board = 0;
+                state.board = {id: 0, name: "", columns: []}
+            }
+            return state;
         }
     }
 });
@@ -208,7 +251,9 @@ export const {
     deleteTask, 
     editTask,
     updateTaskStatus,
-    updateSubTask
+    updateSubTask,
+    addBoard,
+    deleteBoard
 } = BoardSlice.actions;
 
 export default BoardSlice.reducer;

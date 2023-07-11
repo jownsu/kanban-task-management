@@ -1,6 +1,14 @@
-import { FC }    from "react";
-import { Modal } from "react-bootstrap";
+/* React */
+import { FC }             from "react";
 
+/* Plugins */
+import { Modal }          from "react-bootstrap";
+
+/* Redux */
+import { useAppDispatch } from "../../store/store";
+import { deleteBoard }    from "../../store/features/board_slice";
+
+/* CSS */
 import "./delete_board.modal.scss";
 
 type DeleteBoardProps = {
@@ -10,6 +18,12 @@ type DeleteBoardProps = {
 
 const DeleteBoardModal:FC<DeleteBoardProps> = (props) => {
     const { is_show, onHide } = props;
+    const dispatch = useAppDispatch();
+
+    const onDelete = () => {
+        dispatch(deleteBoard());
+        onHide();
+    }
 
     return (
         <Modal
@@ -22,8 +36,20 @@ const DeleteBoardModal:FC<DeleteBoardProps> = (props) => {
                 <p className="title">Delete this board?</p>
                 <p className="desc">Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
                 <div className="action_container">
-                    <button type="button" className="delete_board_btn">Delete</button>
-                    <button type="button" className="cancel_btn" onClick={onHide}>Cancel</button>
+                    <button 
+                        type="button" 
+                        className="delete_board_btn"
+                        onClick={onDelete}
+                    >
+                        Delete
+                    </button>
+                    <button 
+                        type="button" 
+                        className="cancel_btn" 
+                        onClick={onHide}
+                    >
+                        Cancel
+                    </button>
                 </div>
             </Modal.Body>
         </Modal>

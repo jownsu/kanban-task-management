@@ -1,20 +1,25 @@
 /* React */
+import { FC }             from "react";
 import { useAppSelector } from "../../store/store";
 
 /* Components */
-import EmptyBoard         from "../empty_board/empty_board";
 import ColumnList         from "../columns/column_list";
+import EmptyBoard         from "../empty_board/empty_board";
 
-const Board = () => {
+type BoardProps = {
+    onAddNewBoard: () => void;
+}
 
+const Board:FC<BoardProps> = (props) => {
+    const { onAddNewBoard } = props;    
     const { board } = useAppSelector(state => state.board);
 
     return (
         <>
             {
-                (board?.columns.length > 0)
+                (board.id !== 0)
                     ? <ColumnList /> 
-                    : <EmptyBoard />
+                    : <EmptyBoard onAddNewBoard={onAddNewBoard} />
             }
         </>
     )
