@@ -16,25 +16,27 @@ const ColumnList = () => {
     const { board } = useAppSelector(state => state.board);
     const [ is_show_edit_board_modal, setShowEditBoardModal ] = useState(false);
 
-    if(board?.columns?.length < 1){
-        return <EmptyColumn />
-    }
-
     return (
         <>
-            <ul className="column_list">
-                {
-                    board.columns.map((column_item, column_index) => (
-                        <ColumnItem 
-                            key={column_index} 
-                            column={column_item} 
-                        />
-                    ))
-                }
-                <li className="new_column">
-                    <button type="button" onClick={() => setShowEditBoardModal(true)}>+ New Column</button>
-                </li>
-            </ul>
+            {
+                (board?.columns?.length < 1)
+                    ? <EmptyColumn onAddClick={() => setShowEditBoardModal(true)} />
+                    : (
+                        <ul className="column_list">
+                            {
+                                board.columns.map((column_item, column_index) => (
+                                    <ColumnItem 
+                                        key={column_index} 
+                                        column={column_item} 
+                                    />
+                                ))
+                            }
+                            <li className="new_column">
+                                <button type="button" onClick={() => setShowEditBoardModal(true)}>+ New Column</button>
+                            </li>
+                        </ul>
+                    )
+            }
             <EditBoardModal 
                 is_show={is_show_edit_board_modal}
                 onHide={() => setShowEditBoardModal(false)}

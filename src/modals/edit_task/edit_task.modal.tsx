@@ -61,7 +61,7 @@ const EditTaskModal:FC<EditTaskProps> = (props) => {
             id: 0,
             title: "",
             description: "",
-            status: {id: 0 , name: ""},
+            status: {id: 0, name: ""},
             subtasks: []
         }
     });

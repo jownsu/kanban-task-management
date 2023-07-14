@@ -4,6 +4,17 @@ export interface Board {
     columns: Columns[],
 }
 
+export interface UpdateBoard {
+    id: number,
+    name: string,
+    columns: UpdateColumns[]
+}
+
+export interface UpdateColumns {
+    id: number,
+    name: string
+}
+
 export interface Columns {
     id: number,
     name: string,
