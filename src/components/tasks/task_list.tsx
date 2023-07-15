@@ -1,22 +1,18 @@
 /* React */
 import { 
-    useState, 
     useEffect, 
     FC 
 }                               from "react";
 
 /* Redux */
+import { Tasks }                from "../../models/board.model";
 import { 
-    Tasks, 
-    TasksInitialState, 
-}                               from "../../models/board.model";
-import { useAppDispatch }       from "../../store/store";
+    useAppDispatch, 
+    useAppSelector 
+}                               from "../../store/store";
 import { toggleModal }          from "../../store/features/modal_slice";
 
 /* Components */
-import TaskDetailsModal         from "../../modals/task_details/task_details.modal";
-import EditTaskModal            from "../../modals/edit_task/edit_task.modal";
-import DeleteTaskModal          from "../../modals/delete_task/delete_task.modal";
 import TaskItem                 from "./task_item";
 
 /* CSS */
@@ -38,19 +34,31 @@ const TaskList: FC<TaskListProps> = (props) => {
 
     const dispatch = useAppDispatch();
 
-    const [active_task, setActiveTask] = useState<Tasks>(TasksInitialState);
-
+    const { active_task } = useAppSelector(state => state.modal);
 
     useEffect(() => {
         let updated_active_task = tasks.find(task => task.id === active_task.id);
-        if(updated_active_task){
-            setActiveTask(updated_active_task);
+        if(updated_active_task && JSON.stringify(updated_active_task) !== JSON.stringify(active_task)){
+                dispatch(toggleModal({
+                    name: "task_details", 
+                    value: true, 
+                    active_details: { 
+                        active_task: updated_active_task, 
+                        column 
+                    }
+                }));
         }
     }, [tasks]);
 
     const handleTaskClick = (task: Tasks) => {
-        dispatch(toggleModal({name: "task_details", value: true}));
-        setActiveTask(task);
+        dispatch(toggleModal({
+            name: "task_details", 
+            value: true, 
+            active_details: { 
+                active_task: task, 
+                column 
+            }
+        }));
     };
 
     if(!tasks.length){
@@ -58,35 +66,18 @@ const TaskList: FC<TaskListProps> = (props) => {
     }
 
     return (
-        <>
-            <ul className="task_list">
-                { 
-                    tasks.map((task, index) => (
-                            <TaskItem
-                                key={index} 
-                                task={task} 
-                                onClick={() => handleTaskClick(task)} 
-                            />
-                        )
-                    ) 
-                }
-            </ul>  
-
-            <TaskDetailsModal 
-                active_task={active_task}
-                column={column}
-            />  
-
-            <EditTaskModal
-                active_task={active_task}
-                column={column}
-            />
-
-            <DeleteTaskModal
-                active_task={active_task}
-                column={column}
-            />
-        </>
+        <ul className="task_list">
+            { 
+                tasks.map((task, index) => (
+                        <TaskItem
+                            key={index} 
+                            task={task} 
+                            onClick={() => handleTaskClick(task)} 
+                        />
+                    )
+                ) 
+            }
+        </ul>  
     );
 };
 

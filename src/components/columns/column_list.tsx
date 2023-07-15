@@ -22,9 +22,9 @@ const ColumnList = () => {
                 : (
                     <ul className="column_list">
                         {
-                            board.columns.map((column_item, column_index) => (
+                            board.columns.map(column_item => (
                                 <ColumnItem 
-                                    key={column_index} 
+                                    key={column_item.id} 
                                     column={column_item} 
                                 />
                             ))

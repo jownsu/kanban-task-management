@@ -7,6 +7,7 @@ import { useForm, SubmitHandler }         from "react-hook-form";
 
 /* Redux */
 import { useAppSelector, useAppDispatch } from "../../store/store";
+import { Status }                         from "../../models/board.model";
 import { addTask }                        from "../../store/features/board_slice";
 import { toggleModal }                    from "../../store/features/modal_slice";
 
@@ -16,14 +17,9 @@ import "./add_task.modal.scss";
 type Inputs = {
     title: string,
     description: string,
-    sub_tasks: string[],
+    subtasks: string[],
     status: Status
 };
-
-type Status = {
-    id: number;
-    name: string;
-}
 
 const AddTaskModal = () => {
     const dispatch = useAppDispatch();
@@ -43,11 +39,11 @@ const AddTaskModal = () => {
             title: "",
             description: "",
             status: {id: 0 , name: ""},
-            sub_tasks: ["", ""]
+            subtasks: ["", ""]
         }
     });
 
-    const [sub_tasks, status] = watch(["sub_tasks", "status"]);
+    const [subtasks, status] = watch(["subtasks", "status"]);
 
     useEffect(() => {
         if(board?.columns.length){
@@ -56,7 +52,7 @@ const AddTaskModal = () => {
     }, [board]);
 
     const handleDeleteSubTask = (index: number) => {
-        setValue(`sub_tasks`, sub_tasks.filter((_, sub_task_index) => {
+        setValue(`subtasks`, subtasks.filter((_, sub_task_index) => {
             return sub_task_index !== index;
         }));
     }
@@ -67,11 +63,11 @@ const AddTaskModal = () => {
             new_task: {
                 ...form_data, 
                 status: form_data.status.name,
-                subtasks: form_data.sub_tasks
+                subtasks: form_data.subtasks
             }
         }));
         reset();
-        dispatch(toggleModal({name: "add_task", value:false}))
+        dispatch(toggleModal({name: "add_task", value:false}));
     }
 
     return (
@@ -103,17 +99,17 @@ const AddTaskModal = () => {
                             ></textarea>
                             {errors.description && <p className="error_message">Can't be empty</p>}
                     </div>
-                    <div className="sub_tasks_container">
+                    <div className="subtasks_container">
                         <p className="label">Subtasks</p>
                         {
-                            sub_tasks.map((_, sub_task_index) => (
-                                <div className={`sub_task ${errors.sub_tasks?.[sub_task_index] && "error"}`} key={sub_task_index}>
+                            subtasks.map((_, sub_task_index) => (
+                                <div className={`sub_task ${errors.subtasks?.[sub_task_index] && "error"}`} key={sub_task_index}>
                                     <input 
                                         type="text" 
                                         placeholder="e.g Make coffee" 
-                                        {...register(`sub_tasks.${sub_task_index}`, { required: true })}
+                                        {...register(`subtasks.${sub_task_index}`, { required: true })}
                                     />
-                                    {errors.sub_tasks?.[sub_task_index] && <p className="error_message">Can't be empty</p>}
+                                    {errors.subtasks?.[sub_task_index] && <p className="error_message">Can't be empty</p>}
                                     <button 
                                         className="remove_btn" 
                                         type="button"
@@ -125,7 +121,7 @@ const AddTaskModal = () => {
                         <button 
                             id="add_sub_task_btn" 
                             type="button"
-                            onClick={() => setValue("sub_tasks", [...getValues("sub_tasks"), ""])}
+                            onClick={() => setValue("subtasks", [...getValues("subtasks"), ""])}
                         >
                             + Add new Subtask
                         </button>

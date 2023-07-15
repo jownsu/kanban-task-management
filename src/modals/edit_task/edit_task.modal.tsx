@@ -1,5 +1,5 @@
 /* React */
-import { FC, useEffect }   from "react";
+import { useEffect }       from "react";
 
 /* Plugins */
 import { 
@@ -15,50 +15,17 @@ import {
     useAppDispatch
 }                          from "../../store/store";
 import { editTask }        from "../../store/features/board_slice";
-import { Tasks, Subtasks } from "../../models/board.model";
+import { UpdateTask }      from "../../models/board.model";
 import { toggleModal }     from "../../store/features/modal_slice";
 
 /* CSS */
 import "./edit_task.modal.scss";
 
-type EditTaskProps = {
-    active_task: Tasks;
-    column: Column;
-};
-
-type Column = {
-    id: number,
-    name: string
-}
-
-type Inputs = {
-    id: number,
-    title: string,
-    description: string,
-    subtasks: Subtasks[],
-    status: Status
-};
-
-type Status = {
-    id: number;
-    name: string;
-}
-
-type UpdateTask = {
-    id: number,
-    title: string,
-    description: string,
-    subtasks: Subtasks[],
-    status: Status
-};
-
-const EditTaskModal:FC<EditTaskProps> = (props) => {
-    const { active_task, column } = props;
-
+const EditTaskModal = () => {
     const dispatch = useAppDispatch();
 
     const { board } = useAppSelector(state => state.board);
-    const { edit_task } = useAppSelector(state => state.modal);
+    const { edit_task, active_task, column } = useAppSelector(state => state.modal);
 
     const { 
         register, 
@@ -69,7 +36,7 @@ const EditTaskModal:FC<EditTaskProps> = (props) => {
         setValue,
         watch,
         control 
-    } = useForm<Inputs>({
+    } = useForm<UpdateTask>({
         defaultValues: {
             id: 0,
             title: "",
@@ -110,7 +77,7 @@ const EditTaskModal:FC<EditTaskProps> = (props) => {
         dispatch(toggleModal({name: "task_details", value: column.id === updated_task.status.id}));
     }
 
-    const onSubmit:SubmitHandler<Inputs> = (form_data) => {
+    const onSubmit:SubmitHandler<UpdateTask> = (form_data) => {
         handleEdit(form_data);
         reset();
     }

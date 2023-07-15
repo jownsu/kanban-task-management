@@ -1,5 +1,5 @@
 /* React */
-import { useEffect } from "react";
+import { useEffect }     from "react";
 
 /* Plugins */
 import { Modal }         from "react-bootstrap";
@@ -16,20 +16,10 @@ import {
 }                        from "../../store/store";
 import { editBoard }     from "../../store/features/board_slice";
 import { toggleModal }   from "../../store/features/modal_slice";
+import { UpdateBoard }   from "../../models/board.model";
 
 /* CSS */
 import "./edit_board.modal.scss";
-
-type Column = {
-    id: number,
-    name: string
-}
-
-type Inputs = {
-    id: number,
-    name: string,
-    columns: Column[]
-};
 
 const EditBoardModal = () => {
     const { board } = useAppSelector(state => state.board);
@@ -68,7 +58,7 @@ const EditBoardModal = () => {
         }
     }, [board]);
 
-    const onSubmit:SubmitHandler<Inputs> = (form_data) => {
+    const onSubmit:SubmitHandler<UpdateBoard> = (form_data) => {
         dispatch(editBoard({new_board: form_data}));
         handleHide();
     }

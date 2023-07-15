@@ -1,9 +1,8 @@
 /* React */
 import { 
-    FC, 
     useState, 
     useRef 
-}                       from "react";
+}                         from "react";
 
 /* Plugins */
 import { 
@@ -11,37 +10,27 @@ import {
     OverlayTrigger, 
     Popover, 
     Dropdown 
-}                       from "react-bootstrap";
+}                         from "react-bootstrap";
 
 /* Redux */
-import { Tasks }        from "../../models/board.model";
+import { Column }         from "../../models/board.model";
 import { 
     useAppSelector, 
     useAppDispatch
-}                       from "../../store/store";
+}                         from "../../store/store";
 import { 
     updateTaskStatus, 
     updateSubTask 
-}                       from "../../store/features/board_slice";
-import { toggleModal }  from "../../store/features/modal_slice";
+}                         from "../../store/features/board_slice";
+import { toggleModal }    from "../../store/features/modal_slice";
 
 /* CSS */
 import "./task_details.modal.scss";
 
-type TaskDetailsProps = {
-    active_task: Tasks;
-    column: Column;
-};
-
-type Column = {
-    id: number,
-    name: string
-}
-
-const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
-    const { active_task, column } = props;
+const TaskDetailsModal = () => {
     const dispatch = useAppDispatch();
     const { board } = useAppSelector(state => state.board);
+    const { active_task, column } = useAppSelector(state => state.modal);
     const { task_details } = useAppSelector(state => state.modal);
     const [ show_action, setShowAction ] = useState(false);
 

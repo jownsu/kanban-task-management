@@ -1,11 +1,10 @@
 /* React */
-import { FC, FormEvent } from "react";
+import { FormEvent }     from "react";
 
 /* Plugins */
 import { Modal }         from "react-bootstrap";
 
 /* Redux */
-import { Tasks }         from "../../models/board.model";
 import { toggleModal }   from "../../store/features/modal_slice";
 import { deleteTask }    from "../../store/features/board_slice";
 import { 
@@ -16,23 +15,11 @@ import {
 /* CSS */
 import "./delete_task.modal.scss";
 
-type Column = {
-    id: number,
-    name: string
-}
-
-type DeleteTaskProps = {
-    active_task: Tasks;
-    column: Column;
-};
-
-const DeleteTaskModal:FC<DeleteTaskProps> = (props) => {
-    const { active_task, column } = props;
-    const { title } = active_task;
-
+const DeleteTaskModal = () => {
+    
     const dispatch = useAppDispatch();
-    const { delete_task } = useAppSelector(state => state.modal);
-
+    const { delete_task, active_task, column } = useAppSelector(state => state.modal);
+    const { title } = active_task;
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();

@@ -12,6 +12,9 @@ import AddTaskModal     from "./modals/add_task/add_task.modal";
 import AddBoardModal    from "./modals/add_board/add_board.modal";
 import EditBoardModal   from "./modals/edit_board/edit_board.modal";
 import DeleteBoardModal from "./modals/delete_board/delete_board.modal";
+import TaskDetailsModal from "./modals/task_details/task_details.modal";
+import EditTaskModal    from "./modals/edit_task/edit_task.modal";
+import DeleteTaskModal  from "./modals/delete_task/delete_task.modal";
 
 function App() {
 
@@ -36,6 +39,9 @@ function App() {
             <AddBoardModal />
             <EditBoardModal />
             <DeleteBoardModal />
+            <TaskDetailsModal />  
+            <EditTaskModal />
+            <DeleteTaskModal />
         </>
     )
 }

@@ -4,21 +4,26 @@ export interface Board {
     columns: Columns[],
 }
 
+export interface AddBoard {
+    board_name: string,
+    columns_name: string[]
+}
+
 export interface UpdateBoard {
     id: number,
     name: string,
-    columns: UpdateColumns[]
-}
-
-export interface UpdateColumns {
-    id: number,
-    name: string
+    columns: Column[]
 }
 
 export interface Columns {
     id: number,
     name: string,
     tasks: Tasks[],
+}
+
+export interface Column {
+    id: number,
+    name: string
 }
 
 export interface Tasks {
@@ -49,16 +54,23 @@ export interface Status {
     name: string;
 }
 
+export interface Subtasks {
+    id: number,
+    title: string,
+    isCompleted: boolean
+}
+
+/* INITIAL STATES */
+
 export const TasksInitialState = {
     id: 0,
     title: "",
     description: "",
     status: "",
-    subtasks: []
+    subtasks: [{id : 0, title: "", isCompleted: false}]
 }
 
-export interface Subtasks {
-    id: number,
-    title: string,
-    isCompleted: boolean
+export const ColumnInitialState = {
+    id: 0,
+    name: ""
 }

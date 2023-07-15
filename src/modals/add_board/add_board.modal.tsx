@@ -7,16 +7,12 @@ import {
     useAppDispatch, 
     useAppSelector 
 }                                 from "../../store/store";
+import { AddBoard }               from "../../models/board.model";
 import { addBoard }               from "../../store/features/board_slice";
 import { toggleModal }            from "../../store/features/modal_slice";
 
 /* CSS */
 import "./add_board.modal.scss";
-
-type Inputs = {
-    board_name: string,
-    columns_name: string[]
-};
 
 const AddBoardModal = () => {
 
@@ -46,7 +42,7 @@ const AddBoardModal = () => {
         }));
     }
 
-    const onSubmit:SubmitHandler<Inputs> = (form_data) => {
+    const onSubmit:SubmitHandler<AddBoard> = (form_data) => {
         dispatch(addBoard(form_data));
         reset();
         dispatch(toggleModal({name: "add_board", value:false}));
