@@ -20,9 +20,9 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot/1.png)
-![](./screenshot/2.png)
-![](./screenshot/3.png)
+![](./screenshots/1.png)
+![](./screenshots/2.png)
+![](./screenshots/3.png)
 
 I present my solution for the Kaban task management challenge. Through careful analysis and thoughtful implementation, I have devised a system that efficiently organizes and tracks tasks, enhancing productivity and promoting effective collaboration. This solution aims to optimize workflow and improve overall project management capabilities.
 
