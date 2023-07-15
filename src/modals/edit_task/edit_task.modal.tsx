@@ -10,17 +10,19 @@ import {
 import { Modal, Dropdown } from "react-bootstrap";
 
 /* Redux */
-import { useAppSelector }  from "../../store/store";
+import { 
+    useAppSelector,
+    useAppDispatch
+}                          from "../../store/store";
+import { editTask }        from "../../store/features/board_slice";
 import { Tasks, Subtasks } from "../../models/board.model";
+import { toggleModal }     from "../../store/features/modal_slice";
 
 /* CSS */
 import "./edit_task.modal.scss";
 
 type EditTaskProps = {
-    is_show: boolean;
-    onHide: () => void;
     active_task: Tasks;
-    onEditCallback: (new_updated_task: Inputs) => void;
     column: Column;
 };
 
@@ -42,10 +44,21 @@ type Status = {
     name: string;
 }
 
+type UpdateTask = {
+    id: number,
+    title: string,
+    description: string,
+    subtasks: Subtasks[],
+    status: Status
+};
+
 const EditTaskModal:FC<EditTaskProps> = (props) => {
-    const { is_show, onHide, active_task, onEditCallback, column } = props;
+    const { active_task, column } = props;
+
+    const dispatch = useAppDispatch();
 
     const { board } = useAppSelector(state => state.board);
+    const { edit_task } = useAppSelector(state => state.modal);
 
     const { 
         register, 
@@ -86,15 +99,29 @@ const EditTaskModal:FC<EditTaskProps> = (props) => {
 
     const status = watch("status");
 
+    const handleEdit = (updated_task: UpdateTask) => {
+        dispatch(editTask({
+            column_id: column.id,
+            task_id: active_task.id,
+            update_task: updated_task
+        }));
+
+        dispatch(toggleModal({name: "edit_task", value: false}));
+        dispatch(toggleModal({name: "task_details", value: column.id === updated_task.status.id}));
+    }
+
     const onSubmit:SubmitHandler<Inputs> = (form_data) => {
-        onEditCallback(form_data);
+        handleEdit(form_data);
         reset();
     }
     
     return (
         <Modal 
-            show={is_show}
-            onHide={onHide}
+            show={edit_task}
+            onHide={() => {
+                dispatch(toggleModal({name: "edit_task", value: false}))
+                dispatch(toggleModal({name: "task_details", value: true}));
+            }}
             centered
             id="edit_task_modal"
         >

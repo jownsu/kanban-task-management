@@ -1,31 +1,27 @@
-/* React */
-import { FC }                     from "react";
-
 /* Plugins */
 import { Modal }                  from "react-bootstrap";
 import { useForm, SubmitHandler } from "react-hook-form"
 
 /* Redux */
-import { useAppDispatch }         from "../../store/store";
+import { 
+    useAppDispatch, 
+    useAppSelector 
+}                                 from "../../store/store";
 import { addBoard }               from "../../store/features/board_slice";
+import { toggleModal }            from "../../store/features/modal_slice";
 
 /* CSS */
 import "./add_board.modal.scss";
-
-type AddBoardProps = {
-    is_show: boolean;
-    onHide: () => void;
-};
 
 type Inputs = {
     board_name: string,
     columns_name: string[]
 };
 
-const AddBoardModal:FC<AddBoardProps> = (props) => {
-    const { is_show, onHide } = props;
+const AddBoardModal = () => {
+
+    const { add_board } = useAppSelector(state => state.modal);
     const dispatch = useAppDispatch();
-    
 
     const { 
         register, 
@@ -53,13 +49,13 @@ const AddBoardModal:FC<AddBoardProps> = (props) => {
     const onSubmit:SubmitHandler<Inputs> = (form_data) => {
         dispatch(addBoard(form_data));
         reset();
-        onHide();
+        dispatch(toggleModal({name: "add_board", value:false}));
     }
 
     return (
         <Modal 
-            show={is_show}
-            onHide={onHide}
+            show={add_board}
+            onHide={() => dispatch(toggleModal({name: "add_board", value:false}))}
             centered
             id="add_board_modal"
         >

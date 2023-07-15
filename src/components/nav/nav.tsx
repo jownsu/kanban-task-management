@@ -1,27 +1,34 @@
+/* React */
 import { FC, useState }            from "react";
+
+/* Plugins */
 import { OverlayTrigger, Popover } from "react-bootstrap";
+
+/* Redux */
+import { useAppDispatch }          from "../../store/store";
+import { toggleModal }             from "../../store/features/modal_slice";
+
+/* CSS */
 import "./nav.scss";
 
 type NavProps = {
-    onAddTaskClick: () => void;
-    onEditBoard: () => void;
-    onDeleteBoard: () => void;
     onToggleNav: () => void;
 };
 
 const Nav:FC<NavProps> = (props) => {
 
-    const { onAddTaskClick, onEditBoard, onDeleteBoard, onToggleNav } = props;
+    const { onToggleNav } = props;
+    const dispatch = useAppDispatch();
     const [ show_action, setShowAction ] = useState(false);
 
     const handleEditClick = () => {
         setShowAction(false);
-        onEditBoard();
+        dispatch(toggleModal({name: "edit_board", value: true}));
     }
 
     const handleDeleteClick = () => {
         setShowAction(false);
-        onDeleteBoard();
+        dispatch(toggleModal({name: "delete_board", value: true}))
     }
     
     return (
@@ -31,7 +38,7 @@ const Nav:FC<NavProps> = (props) => {
             <button 
                 type="button" 
                 className="btn_primary btn_add"
-                onClick={onAddTaskClick}
+                onClick={() => dispatch(toggleModal({name: "add_task", value: true}))}
             >
                 <span>+ Add New Task</span>
             </button>

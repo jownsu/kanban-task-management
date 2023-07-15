@@ -1,30 +1,58 @@
+/* React */
 import { FC, FormEvent } from "react";
-import { Modal }         from "react-bootstrap";
-import { Tasks }         from "../../models/board.model";
 
+/* Plugins */
+import { Modal }         from "react-bootstrap";
+
+/* Redux */
+import { Tasks }         from "../../models/board.model";
+import { toggleModal }   from "../../store/features/modal_slice";
+import { deleteTask }    from "../../store/features/board_slice";
+import { 
+    useAppDispatch,
+    useAppSelector
+}                        from "../../store/store";
+
+/* CSS */
 import "./delete_task.modal.scss";
 
+type Column = {
+    id: number,
+    name: string
+}
+
 type DeleteTaskProps = {
-    is_show: boolean;
-    onHide: () => void;
-    onDelete: () => void;
-    task: Tasks;
+    active_task: Tasks;
+    column: Column;
 };
 
 const DeleteTaskModal:FC<DeleteTaskProps> = (props) => {
-    const { is_show, task, onHide, onDelete } = props;
-    const { title } = task;
+    const { active_task, column } = props;
+    const { title } = active_task;
+
+    const dispatch = useAppDispatch();
+    const { delete_task } = useAppSelector(state => state.modal);
 
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        onDelete();
+        dispatch(deleteTask({
+            column_id: column.id,
+            task_id: active_task.id
+        }));
+        dispatch(toggleModal({name: "delete_task", value: false}));
+        dispatch(toggleModal({name: "task_details", value: false}));
+    }
+
+    const handleHide = () => {
+        dispatch(toggleModal({name: "delete_task", value: false}));
+        dispatch(toggleModal({name: "task_details", value: true}));
     }
     
     return (
         <Modal
-            show={is_show}
-            onHide={onHide}
+            show={delete_task}
+            onHide={handleHide}
             centered
             id="delete_task_modal"
         >
@@ -34,7 +62,13 @@ const DeleteTaskModal:FC<DeleteTaskProps> = (props) => {
                     <p className="desc">Are you sure you want to delete the ‘{title}‘ task and its subtasks? This action cannot be reversed.</p>
                     <div className="action_container">
                         <button type="submit" className="delete_task_btn">Delete</button>
-                        <button type="button" className="cancel_btn" onClick={onHide}>Cancel</button>
+                        <button 
+                            type="button" 
+                            className="cancel_btn" 
+                            onClick={handleHide}
+                        >
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </Modal.Body>

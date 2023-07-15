@@ -1,16 +1,15 @@
-/* React */
-import { FC } from "react";
+
+/* Redux */
+import { useAppDispatch } from "../../store/store";
+import { toggleModal }    from "../../store/features/modal_slice";
 
 /* CSS */
 import "./empty_board.scss";
 
-type EmptyBoardProps = {
-    onAddNewBoard: () => void;
-};
 
-const EmptyBoard:FC<EmptyBoardProps> = (props) => {
+const EmptyBoard = () => {
 
-    const { onAddNewBoard } = props;
+    const dispatch = useAppDispatch();
 
     return (
         <div className="empty_board">
@@ -18,7 +17,7 @@ const EmptyBoard:FC<EmptyBoardProps> = (props) => {
             <button 
                 type="button" 
                 className="btn_primary"
-                onClick={onAddNewBoard}
+                onClick={() => dispatch(toggleModal({name:"add_board", value: true}))}
             >
                 + Add New Board
             </button>

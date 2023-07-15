@@ -1,19 +1,22 @@
-import { FC } from "react";
+/* Redux */
+import { useAppDispatch } from "../../store/store";
+import { toggleModal }    from "../../store/features/modal_slice";
+
+/* CSS */
 import "./empty_column.scss";
 
-type EmptyColumnProps = {
-    onAddClick: () => void;
-}
 
-const EmptyColumn:FC<EmptyColumnProps> = (props) => {
-    const { onAddClick } = props;
+const EmptyColumn = () => {
+
+    const dispatch = useAppDispatch();
+
     return (
         <div className="empty_column">
             <p>This board is empty. Create a new column to get started.</p>
             <button 
                 type="button" 
                 className="btn_primary"
-                onClick={onAddClick}
+                onClick={() => dispatch(toggleModal({name: "edit_board", value: true}))}
             >
                 + Add New Column
             </button>

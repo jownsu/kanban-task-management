@@ -1,5 +1,5 @@
 /* React */
-import { FC, useEffect }                  from "react";
+import { useEffect }                      from "react";
 
 /* Plugins */
 import { Modal, Dropdown }                from "react-bootstrap";
@@ -8,14 +8,10 @@ import { useForm, SubmitHandler }         from "react-hook-form";
 /* Redux */
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { addTask }                        from "../../store/features/board_slice";
+import { toggleModal }                    from "../../store/features/modal_slice";
 
 /* CSS */
 import "./add_task.modal.scss";
-
-type AddTaskProps = {
-    is_show: boolean;
-    onHide: () => void;
-};
 
 type Inputs = {
     title: string,
@@ -29,10 +25,10 @@ type Status = {
     name: string;
 }
 
-const AddTaskModal:FC<AddTaskProps> = (props) => {
-    const { is_show, onHide } = props;
+const AddTaskModal = () => {
     const dispatch = useAppDispatch();
     const { board } = useAppSelector(state => state.board);
+    const { add_task } = useAppSelector(state => state.modal);
 
     const { 
         register, 
@@ -75,13 +71,13 @@ const AddTaskModal:FC<AddTaskProps> = (props) => {
             }
         }));
         reset();
-        onHide();
+        dispatch(toggleModal({name: "add_task", value:false}))
     }
 
     return (
         <Modal 
-            show={is_show}
-            onHide={onHide}
+            show={add_task}
+            onHide={() => dispatch(toggleModal({name: "add_task", value:false}))}
             centered
             id="new_task_modal"
         >

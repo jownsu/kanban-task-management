@@ -3,7 +3,7 @@ import {
     FC, 
     useState, 
     useRef 
-}                   from "react";
+}                       from "react";
 
 /* Plugins */
 import { 
@@ -11,27 +11,24 @@ import {
     OverlayTrigger, 
     Popover, 
     Dropdown 
-}                   from "react-bootstrap";
+}                       from "react-bootstrap";
 
 /* Redux */
-import { Tasks }    from "../../models/board.model";
+import { Tasks }        from "../../models/board.model";
 import { 
     useAppSelector, 
     useAppDispatch
-}                   from "../../store/store";
+}                       from "../../store/store";
 import { 
     updateTaskStatus, 
     updateSubTask 
-}                   from "../../store/features/board_slice";
+}                       from "../../store/features/board_slice";
+import { toggleModal }  from "../../store/features/modal_slice";
 
 /* CSS */
 import "./task_details.modal.scss";
 
 type TaskDetailsProps = {
-    is_show: boolean;
-    onHide: () => void;
-    onEditTask: () => void;
-    onDeleteTask: () => void;
     active_task: Tasks;
     column: Column;
 };
@@ -42,21 +39,24 @@ type Column = {
 }
 
 const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
-    const { is_show, active_task, column, onHide, onEditTask, onDeleteTask } = props;
+    const { active_task, column } = props;
     const dispatch = useAppDispatch();
     const { board } = useAppSelector(state => state.board);
+    const { task_details } = useAppSelector(state => state.modal);
     const [ show_action, setShowAction ] = useState(false);
 
     const checkboxes_ref = useRef<HTMLInputElement[]>([]);
 
     const handleEditClick = () => {
         setShowAction(false);
-        onEditTask();
+        dispatch(toggleModal({name: "task_details", value: false}));
+        dispatch(toggleModal({name: "edit_task", value: true}));
     }
     
     const handleDeleteClick = () => {
         setShowAction(false);
-        onDeleteTask();
+        dispatch(toggleModal({name: "task_details", value: false}));
+        dispatch(toggleModal({name: "delete_task", value: true}));
     }
     
     const handleSubtaskClick = (index: number, sub_task_id: number) => {
@@ -77,13 +77,13 @@ const TaskDetailsModal:FC<TaskDetailsProps> = (props) => {
             task_id: active_task.id, 
             status_id: status.id
         }));
-        onHide();
+        dispatch(toggleModal({name: "task_details", value: false}));
     }
 
     return (
         <Modal 
-            show={is_show}
-            onHide={onHide}
+            show={task_details}
+            onHide={() => dispatch(toggleModal({name: "task_details", value: false}))}
             centered
             id="task_details_modal"
         >

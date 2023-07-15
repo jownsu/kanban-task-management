@@ -1,34 +1,31 @@
-/* React */
-import { FC }             from "react";
-
 /* Plugins */
 import { Modal }          from "react-bootstrap";
 
 /* Redux */
-import { useAppDispatch } from "../../store/store";
+import { 
+    useAppDispatch, 
+    useAppSelector 
+}                         from "../../store/store";
 import { deleteBoard }    from "../../store/features/board_slice";
+import { toggleModal }    from "../../store/features/modal_slice";
 
 /* CSS */
 import "./delete_board.modal.scss";
 
-type DeleteBoardProps = {
-    is_show: boolean;
-    onHide: () => void;
-};
-
-const DeleteBoardModal:FC<DeleteBoardProps> = (props) => {
-    const { is_show, onHide } = props;
+const DeleteBoardModal = () => {
+    const { delete_board } = useAppSelector(state => state.modal);
     const dispatch = useAppDispatch();
+
 
     const onDelete = () => {
         dispatch(deleteBoard());
-        onHide();
+        dispatch(dispatch(toggleModal({name: "delete_board", value:false})));
     }
 
     return (
         <Modal
-            show={is_show}
-            onHide={onHide}
+            show={delete_board}
+            onHide={() => dispatch(toggleModal({name: "delete_board", value:false}))}
             centered
             id="delete_board_modal"
         >
@@ -46,7 +43,7 @@ const DeleteBoardModal:FC<DeleteBoardProps> = (props) => {
                     <button 
                         type="button" 
                         className="cancel_btn" 
-                        onClick={onHide}
+                        onClick={() => dispatch(toggleModal({name: "delete_board", value:false}))}
                     >
                         Cancel
                     </button>

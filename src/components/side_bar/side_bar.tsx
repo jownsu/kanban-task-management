@@ -14,6 +14,7 @@ import {
     useAppSelector, 
     useAppDispatch 
 }                           from "../../store/store";
+import { toggleModal }      from "../../store/features/modal_slice";
 
 /* Components */
 import { setActiveBoard }   from "../../store/features/board_slice";
@@ -23,13 +24,11 @@ import "./side_bar.scss";
 
 type SideBarProps = {
     onToggleShow: () => void;
-    onThemeSwitch: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onCreateBoardClick: () => void;
 };
 
 const SideBar: FC<SideBarProps> = (props) => {
     
-    const { onToggleShow, onThemeSwitch, onCreateBoardClick } = props;
+    const { onToggleShow } = props;
 
     const [dark_theme, setDarkTheme] = useState(false);
     const { boards, active_board } = useAppSelector(state => state.board);
@@ -42,9 +41,21 @@ const SideBar: FC<SideBarProps> = (props) => {
         }
     }, []);
 
+    const themeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
+        if(event.target.checked){
+            document.body.className = "dark";
+            localStorage.setItem("dark_mode", "true");
+
+        }
+        else{
+            document.body.className = "";
+            localStorage.setItem("dark_mode", "false");
+        }
+    }
+
     const onThemeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setDarkTheme(prevState => !prevState);
-        onThemeSwitch(event);
+        themeSwitch(event);
     };
 
     return (
@@ -68,7 +79,7 @@ const SideBar: FC<SideBarProps> = (props) => {
                 <li className="create_board">
                     <button 
                         type="button" 
-                        onClick={onCreateBoardClick}
+                        onClick={() => dispatch(toggleModal({name: "add_board", value: true}))}
                     >
                         <span className="board_icon"></span>
                         + Create New Board

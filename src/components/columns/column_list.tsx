@@ -1,47 +1,44 @@
-/* React */
-import { useState }       from "react";
-
 /* Redux */
-import { useAppSelector } from "../../store/store";
+import { 
+    useAppSelector,
+    useAppDispatch
+}                         from "../../store/store";
+import { toggleModal }    from "../../store/features/modal_slice";
 
 /* Components */
 import ColumnItem         from "./column_item";
-import EditBoardModal     from "../../modals/edit_board/edit_board.modal";
 import EmptyColumn        from "../empty_column/empty_column";
 
 /* CSS */
 import "./columns.scss";
 
 const ColumnList = () => {
+    const dispatch = useAppDispatch();
     const { board } = useAppSelector(state => state.board);
-    const [ is_show_edit_board_modal, setShowEditBoardModal ] = useState(false);
 
     return (
-        <>
-            {
-                (board?.columns?.length < 1)
-                    ? <EmptyColumn onAddClick={() => setShowEditBoardModal(true)} />
-                    : (
-                        <ul className="column_list">
-                            {
-                                board.columns.map((column_item, column_index) => (
-                                    <ColumnItem 
-                                        key={column_index} 
-                                        column={column_item} 
-                                    />
-                                ))
-                            }
-                            <li className="new_column">
-                                <button type="button" onClick={() => setShowEditBoardModal(true)}>+ New Column</button>
-                            </li>
-                        </ul>
-                    )
-            }
-            <EditBoardModal 
-                is_show={is_show_edit_board_modal}
-                onHide={() => setShowEditBoardModal(false)}
-            />
-        </>
+            (board?.columns?.length < 1)
+                ? <EmptyColumn />
+                : (
+                    <ul className="column_list">
+                        {
+                            board.columns.map((column_item, column_index) => (
+                                <ColumnItem 
+                                    key={column_index} 
+                                    column={column_item} 
+                                />
+                            ))
+                        }
+                        <li className="new_column">
+                            <button 
+                                type="button" 
+                                onClick={() => dispatch(toggleModal({name: "edit_board", value: true}))}
+                            >
+                                + New Column
+                            </button>
+                        </li>
+                    </ul>
+                )
     );
 }
 

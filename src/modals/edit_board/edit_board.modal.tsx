@@ -1,5 +1,5 @@
 /* React */
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 
 /* Plugins */
 import { Modal }         from "react-bootstrap";
@@ -15,14 +15,10 @@ import {
     useAppSelector
 }                        from "../../store/store";
 import { editBoard }     from "../../store/features/board_slice";
+import { toggleModal }   from "../../store/features/modal_slice";
 
 /* CSS */
 import "./edit_board.modal.scss";
-
-type EditBoardProps = {
-    is_show: boolean;
-    onHide: () => void;
-};
 
 type Column = {
     id: number,
@@ -35,10 +31,9 @@ type Inputs = {
     columns: Column[]
 };
 
-const EditBoardModal:FC<EditBoardProps> = (props) => {
-    const { is_show, onHide } = props;
-
+const EditBoardModal = () => {
     const { board } = useAppSelector(state => state.board);
+    const { edit_board } = useAppSelector(state => state.modal);
     const dispatch = useAppDispatch();
 
     const { 
@@ -74,19 +69,18 @@ const EditBoardModal:FC<EditBoardProps> = (props) => {
     }, [board]);
 
     const onSubmit:SubmitHandler<Inputs> = (form_data) => {
-        console.log("FORM DATA =====================", form_data);
         dispatch(editBoard({new_board: form_data}));
         handleHide();
     }
 
     const handleHide = () => {
         reset();
-        onHide();
+        dispatch(toggleModal({name: "edit_board", value: false}));
     }
     
     return (
         <Modal 
-            show={is_show}
+            show={edit_board}
             onHide={handleHide}
             centered
             id="edit_board_modal"
