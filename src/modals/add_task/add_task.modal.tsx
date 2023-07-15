@@ -99,7 +99,7 @@ const AddTaskModal = () => {
                             ></textarea>
                             {errors.description && <p className="error_message">Can't be empty</p>}
                     </div>
-                    <div className="subtasks_container">
+                    <div className="sub_tasks_container">
                         <p className="label">Subtasks</p>
                         {
                             subtasks.map((_, sub_task_index) => (
