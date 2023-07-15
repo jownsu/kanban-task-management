@@ -5,7 +5,7 @@ import { FC, useState }            from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
 /* Redux */
-import { useAppDispatch }          from "../../store/store";
+import { useAppDispatch, useAppSelector }          from "../../store/store";
 import { toggleModal }             from "../../store/features/modal_slice";
 
 /* CSS */
@@ -19,6 +19,7 @@ const Nav:FC<NavProps> = (props) => {
 
     const { onToggleNav } = props;
     const dispatch = useAppDispatch();
+    const { board } = useAppSelector(state => state.board);
     const [ show_action, setShowAction ] = useState(false);
 
     const handleEditClick = () => {
@@ -34,7 +35,7 @@ const Nav:FC<NavProps> = (props) => {
     return (
         <nav>
             <span className="logo"></span>
-            <h1 onClick={onToggleNav}>Platform Launch <span className="toggle_icon"></span></h1>
+            <h1 onClick={onToggleNav}>{board.name} <span className="toggle_icon"></span></h1>
             <button 
                 type="button" 
                 className="btn_primary btn_add"
