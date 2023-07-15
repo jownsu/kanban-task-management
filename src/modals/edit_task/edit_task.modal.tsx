@@ -153,6 +153,7 @@ const EditTaskModal = () => {
                                 {
                                     board.columns.map((item) => (
                                         <Dropdown.Item 
+                                            key={item.id}
                                             onClick={() => setValue("status", {id: item.id, name: item.name})}>{item.name}
                                         </Dropdown.Item>
                                     ))

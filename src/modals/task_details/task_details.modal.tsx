@@ -121,6 +121,7 @@ const TaskDetailsModal = () => {
                                 <div 
                                     className="sub_task" 
                                     onClick={() => handleSubtaskClick(index, subtask.id)}
+                                    key={index}
                                 > 
                                     <input 
                                         type="checkbox" 
@@ -145,6 +146,7 @@ const TaskDetailsModal = () => {
                             {
                                 board.columns.map((item) => (
                                     <Dropdown.Item 
+                                        key={item.id}
                                         onClick={() => handleStatusClick(item)}>{item.name}
                                     </Dropdown.Item>
                                 ))

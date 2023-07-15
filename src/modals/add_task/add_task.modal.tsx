@@ -137,7 +137,7 @@ const AddTaskModal = () => {
                             <Dropdown.Menu>
                                 {
                                     board?.columns.map((item) => (
-                                        <Dropdown.Item onClick={() => setValue("status", {id: item.id, name: item.name})}>{item.name}</Dropdown.Item>
+                                        <Dropdown.Item key={item.id} onClick={() => setValue("status", {id: item.id, name: item.name})}>{item.name}</Dropdown.Item>
                                     ))
                                 }
                             </Dropdown.Menu>

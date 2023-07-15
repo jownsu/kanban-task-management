@@ -72,7 +72,7 @@ const AddBoardModal = () => {
                         <p className="label">Columns</p>
                         {
                             columns_name.map((_, column_index) => (
-                                <div className={`column_group ${errors?.columns_name?.[column_index] && "error"}`}>
+                                <div className={`column_group ${errors?.columns_name?.[column_index] && "error"}`} key={column_index}>
                                     <input 
                                         type="text" 
                                         defaultValue="Todo" 

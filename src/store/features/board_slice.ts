@@ -8,11 +8,21 @@ import {
     UpdateBoard
 } from "../../models/board.model";
 
+let initial_board_data: Board[] = [];
+let local_board_data = localStorage.getItem("board_data");
+if(local_board_data){
+    initial_board_data = JSON.parse(local_board_data);
+}
+else{
+    initial_board_data = boards;
+    localStorage.setItem("board_data", JSON.stringify(initial_board_data));
+}
+
 const initialState = {
-    board_data: [...boards],
-    boards: boards.map(board_item => ({id: board_item.id, name: board_item.name})),
-    board: boards[0],
-    active_board: boards[0].id
+    board_data: initial_board_data,
+    boards: initial_board_data.map(board_item => ({id: board_item.id, name: board_item.name})),
+    board: initial_board_data[0],
+    active_board: initial_board_data[0].id
 };
 
 export const BoardSlice = createSlice({
@@ -23,6 +33,7 @@ export const BoardSlice = createSlice({
             const { board_id } = action.payload;
             state.active_board = board_id;
             state.board = state.board_data.find(board_item => board_item.id === board_id) as Board;
+            saveToLocalStorage(state.board_data);
             return state;
         },
         addTask: (state, action: PayloadAction<{new_task: NewTask, column_id: number}>) => {
@@ -51,6 +62,7 @@ export const BoardSlice = createSlice({
             state.board_data = state.board_data.map(board => (
                 board.id === state.active_board ? state.board : board
             ))
+            saveToLocalStorage(state.board_data);
 
             return state;
         },
@@ -106,6 +118,7 @@ export const BoardSlice = createSlice({
             state.board_data = state.board_data.map(board => (
                 board.id === state.active_board ? state.board : board
             ))
+            saveToLocalStorage(state.board_data);
 
             return state;
         },
@@ -125,6 +138,7 @@ export const BoardSlice = createSlice({
             state.board_data = state.board_data.map(board => (
                 board.id === state.active_board ? state.board : board
             ))
+            saveToLocalStorage(state.board_data);
 
             return state;
         },
@@ -162,6 +176,7 @@ export const BoardSlice = createSlice({
             state.board_data = state.board_data.map(board => (
                 board.id === state.active_board ? state.board : board
             ))
+            saveToLocalStorage(state.board_data);
 
             return state;
         },
@@ -198,6 +213,7 @@ export const BoardSlice = createSlice({
             state.board_data = state.board_data.map(board => (
                 board.id === state.active_board ? state.board : board
             ));
+            saveToLocalStorage(state.board_data);
 
             return state;
         },
@@ -224,6 +240,7 @@ export const BoardSlice = createSlice({
             /* Set the active board */
             state.active_board = new_board_data.id;
             state.board = state.board_data.find(board_item => board_item.id === new_board_data.id) as Board;
+            saveToLocalStorage(state.board_data);
 
             return state;
         },
@@ -242,6 +259,7 @@ export const BoardSlice = createSlice({
                 state.active_board = 0;
                 state.board = {id: 0, name: "", columns: []}
             }
+            saveToLocalStorage(state.board_data);
             return state;
         },
         editBoard: (state, action: PayloadAction<{ new_board: UpdateBoard }>) => {
@@ -294,6 +312,7 @@ export const BoardSlice = createSlice({
                 }
                 return board;
             });
+            saveToLocalStorage(state.board_data);
 
             return state;
         }
@@ -302,6 +321,10 @@ export const BoardSlice = createSlice({
 
 const generateRandomId = () => {
     return Math.floor(Math.random() * 1000000);
+}
+
+const saveToLocalStorage = (data: Board[]) => {
+    localStorage.setItem("board_data", JSON.stringify(data));
 }
 
 export const { 
